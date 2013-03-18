@@ -5,7 +5,7 @@ After=wm.target
 
 [Service]
 Type=oneshot
-EnvironmentFile=%h/.config/systemd/config/XAppEnv
+.include ../config/XAppEnv
 ExecStart=/usr/bin/dex -a -e %I
 RemainAfterExit=true
 

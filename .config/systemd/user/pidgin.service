@@ -4,7 +4,7 @@ Before=after-wm.target
 After=wm.target
 
 [Service]
-EnvironmentFile=%h/.config/systemd/config/XAppEnv
+.include ../config/XAppEnv
 ExecStart=/usr/bin/pidgin
 
 [Install]
