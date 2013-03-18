@@ -39,12 +39,6 @@ export RPROMPT='%{$reset_color%}${vcs_info_msg_0_}%{$reset_color%}'
 
 export PATH="$PATH:/opt/intel/bin/:/home/shui/.cabal/bin"
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
-export XMODIFIERS="@im=fcitx"
-export XIM="fcitx"
-export XIM_PROGRAM="fcitx"
-export GTK_IM_MODULE="fcitx"
-export QT_IM_MODULE="fcitx"
-export MPD_HOST=/home/shui/.mpd/socket
 export QTDIR=/opt/qt
 export LPDEST=HP
 
