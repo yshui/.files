@@ -1,0 +1,58 @@
+# vim:set ft=conkyrc :
+# Conky, a system monitor, based on torsmo
+#
+# Any original torsmo code is licensed under the BSD license
+#
+# All code written since the fork of torsmo is licensed under the GPL
+#
+# Please see COPYING for details
+#
+# Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+# Copyright (c) 2005-2010 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+net_avg_samples 2
+extra_newline no
+update_interval 1.0
+uppercase no
+background no
+no_buffers yes
+use_spacer none
+out_to_console yes
+lua_load ~/.conky/base.lua
+mpd_host /home/shui/.mpd/socket
+mpd_port 6600
+TEXT
+${lua i3bar}\
+[\
+{"name": "top", "full_text": "${lua top}", "align": "center"}\
+${if_up wlp5s0}\
+,{"name": "w","full_text": "${upspeed wlp5s0}/${downspeed wlp5s0}"}\
+${else}\
+${if_up enp3s0}\
+,{"name": "e", "full_text": "${upspeed enp3s0}/${downspeed enp3s0}"}\
+${endif}\
+${endif}\
+,{"name": "m", "full_text": "m $memperc%"}\
+,{"name":"cpu", "full_text": "${lua avgfreq},${cpu cpu0}%"}\
+,{"name": "c", "full_text": "c ${execi 6 sensors | grep --color=never 'Core' | sed 's/.*Core [0-9]*//g;s/(.*)//g;s/+//g;s/°C//g;s/\.0//g' | perl -e 'while(<>){chomp;print;}' | sed -r 's/\s//g;s/^://;s/:/,/'}", "urgent": true}\
+,{"name": "g", "full_text": "g ${execi 6 nvidia-settings --query=[thermalsensor:0]/ThermalSensorReading | grep -E --color=never '[0-9]+\.$' | sed -r 's/.*:\s*([0-9]+)\.$/\1/'}(${execi 6 nvidia-settings -q GPUCurrentPerfLevel -t | sed 's/.*perf=\(\d+\).*/\1/'})"} \
+,{"name": "h", "full_text": "h ${hddtemp}"}\
+${if_match ${lua if_discharging} == 1}\
+,{"name": "battery" , "full_text": "${battery} ${battery_time}"}\
+${endif}\
+,{"name": "mpd", "full_text": "${lua mpd_info}-${mpd_percent}%"} \
+,{"name": "reminder", "full_text": "${execi 1 remind -n ~/.remind}${execi 1 date +",%a,%H:%M:%S"}"}]
