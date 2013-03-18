@@ -11,6 +11,7 @@ Uhm... So here is my .files.
 * I3 is a good window manager.
 * Do mount a tmpfs at /caches.
 * .xmodmap swaps your Caps Lock and Control, delete it if you don't like this.
+* I made all this config as general as possible. But there are still some specific config. For example, `bind_to_address "/run/user/1000/mpd/socket"` in mpd.conf should be changed to /run/user/$UID/mpd/socket. Sadly mpd doesn't support using shell variables in its config.
 
 ## Todo
 
