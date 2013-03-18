@@ -1,0 +1,7 @@
+[Unit]
+Description=Cache dir
+Before=prepare.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mkdir -p /caches/%u

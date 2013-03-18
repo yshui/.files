@@ -1,0 +1,11 @@
+[Unit]
+Description=GMPC
+Before=after-wm.target
+After=wm.target
+
+[Service]
+EnvironmentFile=%h/.config/systemd/config/XAppEnv
+ExecStart=/usr/bin/gmpc
+
+[Install]
+WantedBy=after-wm.target

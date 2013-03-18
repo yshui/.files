@@ -1,0 +1,10 @@
+[Unit]
+Description=urxvtd
+Before=wm.target
+After=before-wm.target
+
+[Service]
+ExecStart=/usr/bin/syndaemon -k -i 1
+
+[Install]
+WantedBy=wm.target

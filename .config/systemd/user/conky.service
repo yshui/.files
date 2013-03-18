@@ -1,0 +1,11 @@
+[Unit]
+Description=urxvtd
+Before=wm.target
+After=before-wm.target
+
+[Service]
+EnvironmentFile=%h/.config/systemd/config/XAppEnv
+ExecStart=/usr/bin/conky
+
+[Install]
+WantedBy=wm.target

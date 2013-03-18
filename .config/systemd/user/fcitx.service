@@ -1,0 +1,11 @@
+[Unit]
+Description=Fcitx
+Before=wm.target
+After=before-wm.target
+
+[Service]
+EnvironmentFile=%h/.config/systemd/config/XAppEnv
+ExecStart=/usr/bin/fcitx -D
+
+[Install]
+WantedBy=wm.target

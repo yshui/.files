@@ -1,0 +1,11 @@
+[Unit]
+Description=Pidgin
+Before=after-wm.target
+After=wm.target
+
+[Service]
+EnvironmentFile=%h/.config/systemd/config/XAppEnv
+ExecStart=/usr/bin/pidgin
+
+[Install]
+WantedBy=after-wm.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Transmission Daemon
+Before=wm.target
+After=before-wm.target
+
+[Service]
+ExecStart=/usr/bin/transmission-daemon -f
+
+[Install]
+WantedBy=wm.target

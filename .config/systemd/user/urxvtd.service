@@ -1,0 +1,10 @@
+[Unit]
+Description=urxvtd
+Before=wm.target
+After=before-wm.target
+
+[Service]
+ExecStart=/usr/bin/urxvtd -q -o
+
+[Install]
+WantedBy=wm.target

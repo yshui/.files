@@ -1,0 +1,8 @@
+[Unit]
+Description=Start WM
+Wants=before-wm.target prepare.target
+After=before-wm.target
+AllowIsolate=yes
+
+[Install]
+Alias=default.target

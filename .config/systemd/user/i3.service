@@ -1,0 +1,11 @@
+[Unit]
+Description=i3 window manager
+After=before-wm.target
+Before=wm.target
+
+[Service]
+EnvironmentFile=%h/.config/systemd/config/XAppEnv
+ExecStart=/usr/bin/i3
+
+[Install]
+WantedBy=wm.target
