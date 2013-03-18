@@ -11,3 +11,7 @@ Uhm... So here is my .files.
 * I3 is a good window manager.
 * Do mount a tmpfs at /caches.
 * .xmodmap swaps your Caps Lock and Control, delete it if you don't like this.
+
+## Todo
+
+* Add a zshell complete function for systemctl --user.
