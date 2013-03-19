@@ -2,15 +2,15 @@
 Environment=OPERAPLUGINWRAPPER_PRIORITY=0
 Environment=EDITOR=vim
 Environment=OPERA_KEEP_BLOCKED_PLUGIN=0
-Environment=XMODIFIERS="@im=fcitx"
-Environment=XIM="fcitx"
-Environment=XIM_PROGRAM="fcitx"
-Environment=GTK_IM_MODULE="fcitx"
-Environment=QT_IM_MODULE="fcitx"
+Environment=XMODIFIERS=@im=fcitx
+Environment=XIM=fcitx
+Environment=XIM_PROGRAM=fcitx
+Environment=GTK_IM_MODULE=fcitx
+Environment=QT_IM_MODULE=fcitx
 Environment=MPD_HOST=/run/user/%U/mpd/socket
 Environment=OPERAPLUGINWRAPPER_PRIORITY=0
 Environment=OPERA_KEEP_BLOCKED_PLUGIN=0
-Environment=INFINALITY_FT_FILTER_PARAMS="03 32 38 32 03"
+Environment="INFINALITY_FT_FILTER_PARAMS=03 32 38 32 03"
 Environment=INFINALITY_FT_GRAYSCALE_FILTER_STRENGTH=25
 Environment=INFINALITY_FT_FRINGE_FILTER_STRENGTH=0
 Environment=INFINALITY_FT_AUTOHINT_HORIZONTAL_STEM_DARKEN_STRENGTH=10
