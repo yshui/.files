@@ -4,7 +4,7 @@ Before=before-wm.target
 
 [Service]
 ExecStartPre=/bin/mkdir -p /run/user/%U/mpd
-ExecStart=/usr/bin/mpd --no-daemon --stdout
+ExecStart=/usr/bin/mpd --no-daemon --stdout %h/.mpd/mpd.conf
 
 [Install]
 WantedBy=before-wm.target
