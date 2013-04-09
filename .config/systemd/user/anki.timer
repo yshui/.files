@@ -1,0 +1,3 @@
+[Timer]
+OnCalendar=*-*-* 12:00:00
+Unit=anki.service
