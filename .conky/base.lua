@@ -14,6 +14,7 @@ do
 		if err then
 			print(err)
 		end
+		tmpa = string.gsub(tmpa, "\"", "\\\"");
 		return tmpa
 	end
 	function trunc3(a,b)
