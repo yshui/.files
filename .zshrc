@@ -31,13 +31,13 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git grml-port loadkeys zkbd)
+plugins=(git grml-port loadkeys zkbd history-substring-search)
 source $HOME/env.sh
 source $ZSH/oh-my-zsh.sh
 export PROMPT=$'%{$terminfo[bold]$fg[cyan]%}%#%{$reset_color%}%{$reset_color%}'
 export RPROMPT='%{$reset_color%}${vcs_info_msg_0_}%{$reset_color%}'
 
-export PATH="$PATH:/opt/intel/bin/:/home/shui/.cabal/bin"
+export PATH="$PATH:/opt/intel/bin/:/home/shui/.cabal/bin:/home/shui/.gem/ruby/2.0.0/bin"
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
 export QTDIR=/opt/qt
 export LPDEST=HP
