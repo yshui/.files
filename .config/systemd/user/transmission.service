@@ -4,6 +4,7 @@ Before=wm.target
 After=before-wm.target
 
 [Service]
+StandardError=inherit
 ExecStart=/usr/bin/transmission-daemon -f
 
 [Install]
