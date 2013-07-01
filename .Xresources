@@ -28,8 +28,8 @@ URxvt.saveLines:	20000
 URxvt.preeditType:	Root
 URxvt.borderLess:	false
 URxvt.title:		urxvt
-URxvt.boldFont:		xft:Dina-16:bold,xft:WenQuanYi Bitmap Song-16:bold
-URxvt.font:		xft:Dina-16:medium,xft:WenQuanYi Bitmap Song-16:medium
+URxvt.boldFont:		xft:Dina:pixelsize=16:bold,xft:WenQuanYi Bitmap Song-16:bold
+URxvt.font:		xft:Dina:pixelsize=16:medium,xft:WenQuanYi Bitmap Song-16:medium
 URxvt.color0:		grey20
 URxvt.urgentOnBell:  	true
 URxvt.backspaceKey: 	Backspace
@@ -41,7 +41,6 @@ Xft.rgba:rgba
 Xft.autohint:   0
 Xft.dpi:        96
 Xft.lcdfilter:  lcddefault
-XTerm*faceName:monospace
 Emacs.Font:monospace 11
 Emacs*useXIM: false
 !Xcursor.theme:Vanilla-DMZ
@@ -51,10 +50,6 @@ URxvt.keysym.M-u:    perl:url-select:select_next
 URxvt.underlineURLs: true
 URxvt*urlLauncher:opera
 URxvt.colorUL: #f0f010
-URxvt.tabbed.tabbar-fg: 2
-URxvt.tabbed.tabbar-bg: 0
-URxvt.tabbed.tab-fg:    3
-URxvt.tabbed.tab-bg:    0
 URxvt.imLocale: zh_CN.utf8
 URxvt.inputMethod: fcitx
 xterm*eightBitInput: false
@@ -63,5 +58,8 @@ xterm*scrollTtyOutput: 	false
 xterm*scrollKey:True
 xterm*borderWidth: 0
 xterm*backarrowKey: true
-XTerm*font: Dina
+XTerm*foreground: white
+XTerm*background:black
+XTerm*utf8: 2
+XTerm*facename: Dina:style=Regular:size=18
 *newLoginCommand: dm-tool switch-to-greeter
