@@ -1,3 +1,1 @@
-#!/bin/sh
-#exec /bin/sh ~/.xinitrc_real
-exec systemd
+/usr/lib/systemd/systemd
