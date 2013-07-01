@@ -206,3 +206,5 @@ for_window [class="(?i).*mplayer.*"] floating enable
 for_window [class="(?i).*wine.*"] floating enable
 for_window [class="(?i).*notify.*"] floating enable
 for_window [class="(?i).*notify.*"] border none
+
+floating_maximum_size -1 x -1
