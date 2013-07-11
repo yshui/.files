@@ -1,0 +1,25 @@
+# key bindings
+source ~/.zkbd/$TERM
+[[ -n ${key[Left]} ]] && bindkey "${key[Left]}" backward-char
+[[ -n ${key[Right]} ]] && bindkey "${key[Right]}" forward-char
+[[ -n "${key[Home]}"     ]]  && bindkey  "${key[Home]}"     beginning-of-line
+[[ -n "${key[End]}"      ]]  && bindkey  "${key[End]}"      end-of-line
+[[ -n "${key[Insert]}"   ]]  && bindkey  "${key[Insert]}"   quoted-insert
+[[ -n "${key[Delete]}"   ]]  && bindkey  "${key[Delete]}"   delete-char
+[[ -n "${key[Up]}"       ]]  && bindkey  "${key[Up]}"       up-line-or-search
+[[ -n "${key[Down]}"     ]]  && bindkey  "${key[Down]}"     down-line-or-search
+[[ -n "${key[Left]}"     ]]  && bindkey  "${key[Left]}"     backward-char
+[[ -n "${key[Right]}"    ]]  && bindkey  "${key[Right]}"    forward-char
+[[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"   beginning-of-history
+[[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}" end-of-history
+[[ -n "${key[Backspace]}" ]] && bindkey  "${key[Backspace]}" backward-delete-char
+[[ -n "${key[Ctrl-Backspace]}" ]] && bindkey  "${key[Ctrl-Backspace]}" backward-kill-word
+
+bindkey "^[[5C" forward-word
+bindkey "^[Oc" emacs-forward-word
+bindkey "^[[5D" backward-word
+bindkey "^[Od" emacs-backward-word
+bindkey "^[e[C" forward-word
+bindkey "^[e[D" backward-word
+bindkey "^[OA" history-substring-search-up
+bindkey "^[OB" history-substring-search-down
