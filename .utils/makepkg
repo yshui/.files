@@ -1,0 +1,9 @@
+#!/bin/sh
+add_package(){
+	source ./PKGBUILD
+	source /etc/makepkg.conf
+	for i in "${pkgname[@]}"; do
+		repo-add "${PKGDEST}/dr.db.tar.xz" "${pkgname}-${pkgver}-${pkgrel}-x86_64${PKGEXT}"
+	done
+}
+makepkg $@ && add_package

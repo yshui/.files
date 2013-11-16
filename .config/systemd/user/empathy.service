@@ -1,0 +1,8 @@
+[Unit]
+Description=Empathy
+
+[Service]
+ExecStart=/usr/bin/empathy
+
+[Install]
+WantedBy=wm.target

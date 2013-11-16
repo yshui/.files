@@ -1,0 +1,4 @@
+#!/bin/sh
+sudo sdparm -C sync /dev/$1
+sleep 5
+sudo sdparm -rC stop /dev/$1

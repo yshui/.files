@@ -1,10 +1,8 @@
 [Unit]
-Description=Music player daemon
-Before=before-wm.target
+Description=Music Player Daemon
 
 [Service]
-ExecStartPre=/bin/mkdir -p /run/user/%U/mpd
-ExecStart=/usr/bin/mpd --no-daemon --stdout %h/.mpd/mpd.conf
+ExecStart=/usr/bin/mpd --no-daemon
 
 [Install]
 WantedBy=before-wm.target

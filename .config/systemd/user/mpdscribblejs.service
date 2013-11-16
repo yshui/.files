@@ -1,0 +1,11 @@
+[Unit]
+Description=MPD scribbler
+Requires=mpd.socket
+After=mpd.service
+
+[Service]
+WorkingDirectory=/home/shui/programs/mpdscribble.js/
+ExecStart=/usr/bin/node /home/shui/programs/mpdscribble.js/mpdscribble.js
+
+[Install]
+WantedBy=before-wm.target

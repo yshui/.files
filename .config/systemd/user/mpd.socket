@@ -1,0 +1,10 @@
+[Unit]
+Description=Music Player Daemon socket
+
+[Socket]
+ExecStartPre=/usr/bin/mkdir -p /run/user/%U/mpd
+ListenStream=/run/user/%U/mpd/socket
+Service=mpd.service
+
+[Install]
+WantedBy=before-wm.target
