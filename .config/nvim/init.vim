@@ -65,6 +65,7 @@ call dein#add('google/vim-codefmt', { 'depends' : ['vim-maktaba'], 'merged': 0})
 call dein#add('google/vim-glaive')
 call dein#add('editorconfig/editorconfig-vim')
 call dein#add('arakashic/chromatica.nvim', {'merged': 0})
+call dein#add('mhartington/nvim-typescript', {'depends' : ['deoplete.nvim']})
 
 call dein#end()
 call maktaba#plugin#Detect()
@@ -188,11 +189,7 @@ set background=dark
 if v:progname =~? "gvim"
 	colors lucius
 else
-	if $TERM =~? "256color"
-		colorscheme gardener
-	else
-		colorscheme default
-	endif
+	colorscheme gardener
 endif
 
 filetype plugin on
@@ -243,10 +240,11 @@ let g:deoplete#enable_at_startup = 1
 
 let g:deoplete#enable_smart_case = 1
 
-let g:deoplete#sources#clang#libclang_path = "/usr/lib/libclang.so"
-let g:deoplete#sources#clang#clang_header = '/usr/lib/clang/3.9.1/include'
 let g:clang2_placeholder_prev = '<s-c-k>'
 let g:clang2_placeholder_next = '<c-k>'
+
+let g:deoplete#sources#d#dcd_client_binary = "dcd-client"
+let g:deoplete#sources#d#dcd_server_binary = "dcd-server"
 
 let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
 let g:deoplete#omni#input_patterns.d = [
@@ -324,6 +322,7 @@ let g:neomake_c_clangw_maker = {
       \ '%f:%l: %m',
 \ }
 let g:neomake_c_enabled_makers = ['clangw', 'clangtidy']
+let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g"]
 "}}}
 "}}}
 
@@ -396,6 +395,10 @@ nnoremap <F7> :Neomake<CR>
 smap <expr><TAB> neosnippet#jumpable() ?
 \ "\<Plug>(neosnippet_jump)"
 \: "\<TAB>"
+"}}}
+"
+"{{{commands
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 "}}}
 
 " vim: foldmethod=marker

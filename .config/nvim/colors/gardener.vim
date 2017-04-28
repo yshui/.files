@@ -276,5 +276,5 @@ autocmd FileType c,cpp,javascript highlight ExtraWhitespace ctermbg=red guibg=re
 autocmd FileType c,cpp,javascript match ExtraWhitespace /\s\+$/
 hi ColorColumn ctermbg=red
 
-hi Variable    cterm=BOLD   ctermfg=218 ctermbg=NONE guifg=White guibg=NONE
+hi Variable    cterm=BOLD   ctermfg=210 ctermbg=NONE guifg=White guibg=NONE
 hi Member      ctermfg=117 ctermbg=NONE guifg=#005f00
