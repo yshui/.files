@@ -1,3 +1,6 @@
 [submodule ".config/awesome"]
 	path = .config/awesome
 	url = https://github.com/yshui/atomi
+[submodule ".config/nvim/dein/repos/github.com/Shougo/dein.vim"]
+	path = .config/nvim/dein/repos/github.com/Shougo/dein.vim
+	url = https://github.com/Shougo/dein.vim
