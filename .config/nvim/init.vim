@@ -60,17 +60,11 @@ call dein#add('majutsushi/tagbar')
 call dein#add('lyuts/vim-rtags')
 "call dein#add('critiqjo/lldb.nvim')
 call dein#add('kana/vim-arpeggio')
-call dein#add('google/vim-maktaba')
-call dein#add('google/vim-codefmt', { 'depends' : ['vim-maktaba'], 'merged': 0})
-call dein#add('google/vim-glaive')
 call dein#add('editorconfig/editorconfig-vim')
 call dein#add('arakashic/chromatica.nvim', {'merged': 0})
 call dein#add('mhartington/nvim-typescript', {'depends' : ['deoplete.nvim']})
 
 call dein#end()
-call maktaba#plugin#Detect()
-
-call glaive#Install()
 
 if dein#check_install()
   call dein#install()
