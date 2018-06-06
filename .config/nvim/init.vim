@@ -74,7 +74,7 @@ endif
 "{{{ Timers
 
 let g:idle_timer = -1
-func! s:idle_callback()
+func! s:idle_callback(timer)
 	Neomake
 endfunc
 
@@ -82,7 +82,7 @@ func! s:input_callback()
 	if g:idle_timer >= 0
 		call timer_stop(g:idle_timer)
 	endif
-	let g:idle_timer = timer_start(5000, 's:idle_callback', {'repeat': 1})
+	let g:idle_timer = timer_start(5000, function('s:idle_callback'), {'repeat': 1})
 endfunc
 
 autocmd InsertCharPre * call s:input_callback()
@@ -91,7 +91,7 @@ autocmd InsertCharPre * call s:input_callback()
 let g:press_timer = -1
 let g:repeat_count = -1
 
-func! s:long_press_j_cancel()
+func! s:long_press_j_cancel(t)
 	echomsg "canceled"
 	let g:repeat_count = -1
 	let g:press_timer = -1
@@ -114,16 +114,17 @@ func! s:long_press_j()
 		if g:repeat_count == 0
 			echomsg "You did it!"
 		endif
-		let g:press_timer = timer_start(200, 's:long_press_j_cancel', {'repeat': 1})
+		let g:press_timer = timer_start(200, function('s:long_press_j_cancel'), {'repeat': 1})
 		return ret
 	elseif g:press_timer == -1
 		"Just started
 		echomsg "starting"
-		let g:press_timer = timer_start(200, 's:long_press_j_cancel', {'repeat': 1})
+		let g:press_timer = timer_start(200, function('s:long_press_j_cancel'), {'repeat': 1})
 		return "2"
 	endif
 endfunc
 "inoremap <expr> 2 <SID>long_press_j()
+
 
 "}}}
 
