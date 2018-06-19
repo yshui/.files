@@ -41,13 +41,13 @@ call dein#add('jiangmiao/auto-pairs')
 "call dein#add('Raimondi/delimitMate')
 call dein#add('Matt-Deacalion/vim-systemd-syntax')
 call dein#add('neomake/neomake')
-call dein#add('idanarye/vim-dutyl')
+"call dein#add('idanarye/vim-dutyl')
 call dein#add('leafgarland/typescript-vim')
 call dein#add('nhooyr/neoman.vim')
 call dein#add('junegunn/fzf', {'merged':0})
 call dein#add('junegunn/fzf.vim')
 call dein#add('kien/ctrlp.vim')
-call dein#add('yshui/deoplete-d', {'depends' : ['deoplete.nvim']})
+"call dein#add('yshui/deoplete-d', {'depends' : ['deoplete.nvim']})
 call dein#add('vim-scripts/Lucius')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes', {'depends' : ['vim-airline']})
@@ -135,7 +135,7 @@ source $VIMRUNTIME/menu.vim
 
 "Set tmux window name and title
 "autocmd BufEnter * call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
-set title
+set title titlestring=%<%F titlelen=10
 
 "Return to the last edit position
 autocmd BufReadPost *
