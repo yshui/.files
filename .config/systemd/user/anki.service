@@ -1,7 +1,0 @@
-[Unit]
-Description=Anki
-After=wm.target
-
-[Service]
-.include ../config/XAppEnv
-ExecStart=/usr/bin/anki

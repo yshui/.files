@@ -1,9 +1,0 @@
-[Unit]
-Description=Udisksvm
-Wants=wm.target
-
-[Service]
-ExecStart=/usr/bin/udisksvm
-
-[Install]
-WantedBy=after-wm.target

@@ -1,9 +1,0 @@
-[Unit]
-Description=Stuff that should be started before wm
-Before=wm.target
-After=prepare.target
-Wants=prepare.target
-AllowIsolate=yes
-
-[Install]
-Alias=default.target
