@@ -22,6 +22,9 @@ command DeinClear call s:dein_clear_unused()
 
 "{{{ Dein.vim plugins
 set runtimepath^=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim/
+set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
+\,sm:block-blinkwait175-blinkoff150-blinkon175
+set showmatch
 
 call dein#begin(expand('~/.config/nvim/dein/'))
 
@@ -36,9 +39,9 @@ call dein#add('pangloss/vim-javascript')
 call dein#add('scrooloose/nerdcommenter')
 call dein#add('scrooloose/nerdtree')
 call dein#add('mattn/emmet-vim')
-call dein#add('plasticboy/vim-markdown')
+"call dein#add('plasticboy/vim-markdown')
 call dein#add('jiangmiao/auto-pairs')
-"call dein#add('Raimondi/delimitMate')
+call dein#add('Raimondi/delimitMate')
 call dein#add('Matt-Deacalion/vim-systemd-syntax')
 call dein#add('neomake/neomake')
 "call dein#add('idanarye/vim-dutyl')
@@ -341,7 +344,7 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1  " Rails support
 autocmd FileType java setlocal noexpandtab " do not expand tabs to spaces for Java
 autocmd FileType rust setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
-"autocmd FileType xml,html,phtml,php,xhtml,js let b:delimitMate_matchpairs = "(:),[:],{:}"
+autocmd FileType xml,html,phtml,php,xhtml,js let b:delimitMate_matchpairs = "(:),[:],{:}"
 autocmd FileType markdown set spell spelllang=en_us
 autocmd FileType lua set expandtab shiftwidth=4 tabstop=8 softtabstop=4 textwidth=80
 "}}}
@@ -371,7 +374,7 @@ inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 "{{{ deoplete.vim related mappings
 imap <expr><CR>  pumvisible() ?
 \ (neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : deoplete#mappings#close_popup()) :
-\ "\<CR>\<Plug>AutoPairsReturn"
+\ "\<Plug>delimitMateCR"
 
 inoremap <expr><C-h>
 \ deoplete#mappings#smart_close_popup()."\<C-h>"
