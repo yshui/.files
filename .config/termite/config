@@ -6,12 +6,12 @@ mouse_autohide = false
 allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
-clickable_url = false
-scrollback_lines = 0
+clickable_url = true
+font = DeTerminus 7
+scrollback_lines = 10000
 search_wrap = true
 icon_name = terminal
 #geometry = 640x480
-font = DeTerminus 8
 
 # "system", "on" or "off"
 cursor_blink = off
@@ -23,7 +23,7 @@ cursor_shape = block
 #browser = xdg-open
 
 # set size hints for the window
-size_hints = false
+#size_hints = false
 
 # Hide links that are no longer valid in url select overlay mode
 filter_unmatched_urls = true
@@ -32,51 +32,38 @@ filter_unmatched_urls = true
 #modify_other_keys = false
 
 [colors]
-
-# special
-foreground      = #ffffff
+#cursor = #dcdccc
+#cursor_foreground = #dcdccc
+foreground = #ffffff
 foreground_bold = #ffffff
-cursor          = #ffffff
+#background = #000000
 
-# black
-color0  = #000000
-color8  = #353535
-
-# red
-color1  = #d10000
-color9  = #ff0000
-
-# green
-color2  = #15d100
-color10 = #00ff00
-
-# yellow
-color3  = #d1d100
-color11 = #ffff00
-
-# blue
-color4  = #001cd1
-color12 = #0000ff
-
-# magenta
-color5  = #d11fd1
-color13 = #ff00ff
-
-# cyan
-color6  = #0ad1d1
-color14 = #00ffff
-
-# white
-color7  = #e5e5e5
-color15 = #ffffff
 # 20% background transparency (requires a compositor)
-background = rgba(0, 0, 0, 0.8)
+background = rgba(00, 00, 00, 0.75)
 
 # if unset, will reverse foreground and background
 highlight = #2f2f2f
 
+# colors from color0 to color254 can be set
+color0 = #000000
+dolor1 = #d00000
+dolor2 = #00d000
+dolor3 = #d0d000
+dolor4 = #0000d0
+dolor5 = #d000d0
+dolor6 = #00d0d0
+color7 = #ffffff
+color8 = #000000
+color9 = #ff0000
+color10 = #00ff00
+color11 = #ffff00
+color12 = #0000ff
+color13 = #ff00ff
+color14 = #00ffff
+color15 = #ffffff
+
 [hints]
-#font = DeTerminus
+#font = Monospace 12
 #foreground = #dcdccc
 #background = #3f3f3f
 #active_foreground = #e68080
