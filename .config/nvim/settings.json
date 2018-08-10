@@ -1,0 +1,8 @@
+{
+        "initializationOptions": {
+                "cacheDirectory": "/tmp/cquery",
+		"resourceDirectory": "~/programs/cquery/clang_resource_dir",
+		"cacheFormat": "msgpack"
+        },
+	"rust" : { "unstable_features": true }
+}

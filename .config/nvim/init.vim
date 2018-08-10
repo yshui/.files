@@ -22,9 +22,6 @@ command DeinClear call s:dein_clear_unused()
 
 "{{{ Dein.vim plugins
 set runtimepath^=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim/
-set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
-\,sm:block-blinkwait175-blinkoff150-blinkon175
-set showmatch
 
 call dein#begin(expand('~/.config/nvim/dein/'))
 
@@ -41,6 +38,7 @@ call dein#add('scrooloose/nerdtree')
 call dein#add('mattn/emmet-vim')
 call dein#add('plasticboy/vim-markdown')
 call dein#add('jiangmiao/auto-pairs')
+"call dein#add('Raimondi/delimitMate')
 call dein#add('Matt-Deacalion/vim-systemd-syntax')
 call dein#add('neomake/neomake')
 "call dein#add('idanarye/vim-dutyl')
@@ -49,7 +47,6 @@ call dein#add('nhooyr/neoman.vim')
 call dein#add('junegunn/fzf', {'merged':0})
 call dein#add('junegunn/fzf.vim')
 call dein#add('kien/ctrlp.vim')
-"call dein#add('yshui/deoplete-d', {'depends' : ['deoplete.nvim']})
 call dein#add('vim-scripts/Lucius')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes', {'depends' : ['vim-airline']})
@@ -59,14 +56,23 @@ call dein#add('carlitux/deoplete-ternjs', {'depends': ['deoplete.nvim', 'tern_fo
 "call dein#add('tweekmonster/deoplete-clang2', {'depends' : ['deoplete.nvim'], 'merged': 1})
 call dein#add('majutsushi/tagbar')
 "call dein#add('rhysd/vim-clang-format')
-call dein#add('lyuts/vim-rtags')
+"call dein#add('lyuts/vim-rtags')
 "call dein#add('critiqjo/lldb.nvim')
 call dein#add('kana/vim-arpeggio')
+"call dein#add('google/vim-maktaba')
+"call dein#add('google/vim-codefmt', { 'depends' : ['vim-maktaba'], 'merged': 0})
+"call dein#add('google/vim-glaive')
 call dein#add('editorconfig/editorconfig-vim')
 call dein#add('arakashic/chromatica.nvim', {'merged': 0})
-call dein#add('mhartington/nvim-typescript', {'depends' : ['deoplete.nvim']})
+"call dein#add('mhartington/nvim-typescript', {'depends' : ['deoplete.nvim']})
+call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'make release'})
+call dein#add('yshui/tooltip.nvim')
+call dein#add('udalov/kotlin-vim')
 
 call dein#end()
+"call maktaba#plugin#Detect()
+
+"call glaive#Install()
 
 if dein#check_install()
   call dein#install()
@@ -93,7 +99,7 @@ autocmd InsertCharPre * call s:input_callback()
 let g:press_timer = -1
 let g:repeat_count = -1
 
-func! s:long_press_j_cancel(t)
+func! s:long_press_j_cancel()
 	echomsg "canceled"
 	let g:repeat_count = -1
 	let g:press_timer = -1
@@ -116,17 +122,16 @@ func! s:long_press_j()
 		if g:repeat_count == 0
 			echomsg "You did it!"
 		endif
-		let g:press_timer = timer_start(200, function('s:long_press_j_cancel'), {'repeat': 1})
+		let g:press_timer = timer_start(200, 's:long_press_j_cancel', {'repeat': 1})
 		return ret
 	elseif g:press_timer == -1
 		"Just started
 		echomsg "starting"
-		let g:press_timer = timer_start(200, function('s:long_press_j_cancel'), {'repeat': 1})
+		let g:press_timer = timer_start(200, 's:long_press_j_cancel', {'repeat': 1})
 		return "2"
 	endif
 endfunc
 "inoremap <expr> 2 <SID>long_press_j()
-
 
 "}}}
 
@@ -136,8 +141,8 @@ source $VIMRUNTIME/menu.vim
 "{{{ Basic vim configurations
 
 "Set tmux window name and title
-"autocmd BufEnter * call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
-set title titlestring=%<%F titlelen=10
+autocmd BufEnter * call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
+set title
 
 "Return to the last edit position
 autocmd BufReadPost *
@@ -174,7 +179,7 @@ set shada=!,'150,<100,/50,:50,r/tmp,s256
 set smartindent
 set ofu=syntaxcomplete#Complete
 "List Char
-set list!
+"set list!
 set listchars=tab:>-,trail:-,extends:>
 set viewoptions-=options
 
@@ -189,6 +194,12 @@ else
 	colorscheme gardener
 endif
 
+let g:nvim_config_dir = $HOME."/.config/nvim"
+if $XDG_CONFIG_DIR != ""
+	let g:nvim_config_dir = $XDG_CONFIG_DIR."/nvim"
+endif
+
+
 filetype plugin on
 filetype plugin indent on
 
@@ -198,6 +209,9 @@ autocmd BufWinEnter *.* silent! loadview
 "}}}
 
 "{{{ Plugin configurations
+let g:tooltip_border_width=10
+let g:tooltip_background="white"
+let g:tooltip_foreground="black"
 "{{{ Clang paths
 
 let g:__clang_path = '/usr/lib/libclang.so'
@@ -225,6 +239,18 @@ endfunction
 
 autocmd VimEnter * call s:chords_setup()
 "}}}
+"{{{ LanguageClient
+let g:LanguageClient_serverCommands = {
+    \ 'c': ['cquery', '--language-server', '--log-file', '/tmp/a'],
+    \ 'cpp': ['cquery', '--language-server', '--log-file', '/tmp/a'],
+    \ 'rust': ['rls'],
+    \ 'typescript': [$HOME.'/node_modules/.bin/typescript-language-server', '--stdio'],
+\ }
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_settingsPath = g:nvim_config_dir.'/settings.json'
+let g:LanguageClient_loadSettings = 1
+"}}}
+
 "{{{ AutoPairs/delimitMate
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
@@ -240,8 +266,8 @@ let g:deoplete#enable_smart_case = 1
 let g:clang2_placeholder_prev = '<s-c-k>'
 let g:clang2_placeholder_next = '<c-k>'
 
-let g:deoplete#sources#d#dcd_client_binary = "dcd-client"
-let g:deoplete#sources#d#dcd_server_binary = "dcd-server"
+"let g:deoplete#sources#d#dcd_client_binary = "dcd-client"
+"let g:deoplete#sources#d#dcd_server_binary = "dcd-server"
 
 let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
 let g:deoplete#omni#input_patterns.d = [
@@ -318,8 +344,13 @@ let g:neomake_c_clangw_maker = {
       \ '%f:%l: %tarning: %m,'.
       \ '%f:%l: %m',
 \ }
-let g:neomake_c_enabled_makers = ['clangw', 'clangtidy']
+let g:neomake_c_enabled_makers = []
+let g:neomake_cpp_enabled_makers = []
 let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g"]
+"}}}
+"{{{ emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 "}}}
 "}}}
 
@@ -343,8 +374,12 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1  " Rails support
 autocmd FileType java setlocal noexpandtab " do not expand tabs to spaces for Java
 autocmd FileType rust setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
+autocmd FileType xml,html,phtml,php,xhtml,js let b:delimitMate_matchpairs = "(:),[:],{:}"
 autocmd FileType markdown set spell spelllang=en_us
 autocmd FileType lua set expandtab shiftwidth=4 tabstop=8 softtabstop=4 textwidth=80
+autocmd BufNewFile,BufRead *.mi set filetype=mite
+au BufNewFile,BufRead meson.build set filetype=meson
+au BufNewFile,BufRead meson_options.txt set filetype=meson
 "}}}
 
 "{{{ Misc mappings
@@ -359,19 +394,25 @@ noremap  <buffer> <silent> <Down> gj
 noremap  <buffer> <silent> <Home> g<Home>
 noremap  <buffer> <silent> <End>  g<End>
 nnoremap <space> :
+function s:lc_hover()
+	let r = LanguageClient_textDocument_hoverSync()
+	if type(r) != 7
+		call ShowTooltip(screenrow(), screencol(), r["contents"][0]["value"])
+	endif
+endfunc
+"autocmd CursorHold *.c call s:lc_hover()
+autocmd CursorMoved *.c call HideTooltip()
+noremap <silent><c-t> :call <SID>lc_hover()<CR>
 
 cnoreabbrev Man Snman
 "}}}
-
-"inoremap <expr><C-g>     neocomplcache#undo_completion()
-"inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
 inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 
 
 "{{{ deoplete.vim related mappings
 imap <expr><CR>  pumvisible() ?
-\ (neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : deoplete#mappings#close_popup()) :
+\ (neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : deoplete#mappings#close_popup()."\<Plug>(neosnippet_jump)") :
 \ "\<CR>\<Plug>AutoPairsReturn"
 
 inoremap <expr><C-h>
@@ -397,4 +438,11 @@ smap <expr><TAB> neosnippet#jumpable() ?
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 "}}}
 
+"List Char
+set list!
+set listchars=tab:>-,trail:-,extends:>
+
+nnoremap ; :
+
+cnoreabbrev Man Snman
 " vim: foldmethod=marker
