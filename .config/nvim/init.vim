@@ -305,7 +305,7 @@ let g:neomake_warning_sign = {
 
 "{{{ SudoEdit
 let g:sudoAuth = "sudo"
-let g:sudo_no_gui = 1
+let g:sudo_no_gui = 0
 "}}}
 
 "{{{ syntastic
