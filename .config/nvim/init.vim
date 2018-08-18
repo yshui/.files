@@ -141,7 +141,7 @@ source $VIMRUNTIME/menu.vim
 "{{{ Basic vim configurations
 
 "Set tmux window name and title
-autocmd BufEnter * call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
+"autocmd BufEnter * call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
 set title
 
 "Return to the last edit position
