@@ -1,8 +1,14 @@
+function get_distro() {
+	source /etc/os-release
+	echo $NAME
+}
+DISTRO=$(get_distro)
+
 # If you come from bash you might have to change your $PATH.
 export PATH="$HOME/.npmp/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/void/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -62,7 +68,6 @@ plugins=(
   git
   shrink-path
 )
-
 source $ZSH/oh-my-zsh.sh
 source ~/.cargo/env
 
@@ -127,3 +132,17 @@ add-zsh-hook precmd my_precmd
 add-zsh-hook preexec my_preexec
 unsetopt share_history
 setopt inc_append_history_time
+
+if [ "$DISTRO" = "Arch Linux" ]; then
+	alias sp="sudo pacman"
+	alias p="pacman"
+	alias u="sp -Syu"
+	alias i="sp -S"
+	alias r="sp -Rsc"
+elif [ "$DISTRO" = "void" ]; then
+	alias sxi="sudo xbps-install"
+	alias i="sxi"
+	alias u="sxi -Su"
+	alias sxr="sudo xbps-remove"
+	alias r="sxr -Ro"
+fi
