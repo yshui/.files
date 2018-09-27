@@ -22,11 +22,13 @@ command DeinClear call s:dein_clear_unused()
 
 "{{{ Dein.vim plugins
 set runtimepath^=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim/
+let g:dein#install_process_timeout=99999
 
 call dein#begin(expand('~/.config/nvim/dein/'))
 
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/deoplete.nvim', {'merged': 0})
+call dein#add('LnL7/vim-nix')
 call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('othree/html5.vim')
@@ -141,8 +143,19 @@ source $VIMRUNTIME/menu.vim
 "{{{ Basic vim configurations
 
 "Set tmux window name and title
-"autocmd BufEnter * call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
+function! s:tmux_apply_title()
+	call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
+endfunc
+function! s:tmux_reset_title()
+	call system("tmux set-window-option automatic-rename on")
+endfunc
+autocmd VimEnter * call s:tmux_apply_title()
+autocmd BufEnter * call s:tmux_apply_title()
+autocmd VimResume * call s:tmux_apply_title()
+autocmd VimLeave * call s:tmux_reset_title()
+autocmd VimSuspend * call s:tmux_reset_title()
 set title
+set titlestring=%f\ -\ NVIM
 
 "Return to the last edit position
 autocmd BufReadPost *
@@ -401,8 +414,8 @@ function s:lc_hover()
 	endif
 endfunc
 "autocmd CursorHold *.c call s:lc_hover()
-autocmd CursorMoved *.c call HideTooltip()
-noremap <silent><c-t> :call <SID>lc_hover()<CR>
+"autocmd CursorMoved *.c call HideTooltip()
+"noremap <silent><c-t> :call <SID>lc_hover()<CR>
 
 cnoreabbrev Man Snman
 "}}}
