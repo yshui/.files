@@ -254,8 +254,8 @@ autocmd VimEnter * call s:chords_setup()
 "}}}
 "{{{ LanguageClient
 let g:LanguageClient_serverCommands = {
-    \ 'c': ['cquery', '--language-server', '--log-file', '/tmp/a'],
-    \ 'cpp': ['cquery', '--language-server', '--log-file', '/tmp/a'],
+    \ 'c': ['ccls', '-log-file', '/tmp/a'],
+    \ 'cpp': ['ccls', '-log-file', '/tmp/a'],
     \ 'rust': ['rls'],
     \ 'typescript': [$HOME.'/node_modules/.bin/typescript-language-server', '--stdio'],
 \ }
