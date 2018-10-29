@@ -27,7 +27,13 @@ let g:dein#install_process_timeout=99999
 call dein#begin(expand('~/.config/nvim/dein/'))
 
 call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/deoplete.nvim', {'merged': 0})
+"call dein#add('Shougo/deoplete.nvim', {'merged': 0})
+call dein#add('roxma/nvim-yarp')
+call dein#add('ncm2/ncm2', {'depends' : ['roxma/nvim-yarp']})
+call dein#add('ncm2/ncm2-bufword', {'depends' : ['ncm2/ncm2']})
+call dein#add('ncm2/ncm2-path', {'depends' : ['ncm2/ncm2']})
+call dein#add('ncm2/ncm2-tmux', {'depends' : ['ncm2/ncm2']})
+call dein#add('ncm2/ncm2-vim', {'depends' : ['ncm2/ncm2']})
 call dein#add('LnL7/vim-nix')
 call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
@@ -137,7 +143,6 @@ endfunc
 
 "}}}
 
-
 source $VIMRUNTIME/menu.vim
 
 "{{{ Basic vim configurations
@@ -185,7 +190,7 @@ set laststatus=2
 set clipboard=unnamedplus
 map <F4> :emenu <C-Z>
 au BufRead,BufNewFile * let b:start_time=localtime()
-set completeopt=menu,menuone,preview
+set completeopt=menuone
 set shada=!,'150,<100,/50,:50,r/tmp,s256
 "au FileType c,cpp,vim let w:mcc=matchadd('ColorColumn', '\%81v', 100)
 
@@ -252,6 +257,11 @@ endfunction
 
 autocmd VimEnter * call s:chords_setup()
 "}}}
+"{{{ ncm2
+au BufEnter * call ncm2#enable_for_buffer()
+au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+au User Ncm2PopupClose set completeopt=menuone
+"}}}
 "{{{ LanguageClient
 let g:LanguageClient_serverCommands = {
     \ 'c': ['ccls', '-log-file', '/tmp/a'],
@@ -262,6 +272,7 @@ let g:LanguageClient_serverCommands = {
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_settingsPath = g:nvim_config_dir.'/settings.json'
 let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_hasSnippetSupport = 0
 "}}}
 
 "{{{ AutoPairs/delimitMate
@@ -393,6 +404,7 @@ autocmd FileType lua set expandtab shiftwidth=4 tabstop=8 softtabstop=4 textwidt
 autocmd BufNewFile,BufRead *.mi set filetype=mite
 au BufNewFile,BufRead meson.build set filetype=meson
 au BufNewFile,BufRead meson_options.txt set filetype=meson
+
 "}}}
 
 "{{{ Misc mappings
@@ -425,7 +437,7 @@ inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 
 "{{{ deoplete.vim related mappings
 imap <expr><CR>  pumvisible() ?
-\ (neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : deoplete#mappings#close_popup()."\<Plug>(neosnippet_jump)") :
+\ (neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "\<c-y><CR>") :
 \ "\<CR>\<Plug>AutoPairsReturn"
 
 inoremap <expr><C-h>
@@ -436,7 +448,7 @@ inoremap <expr><BS>
 
 imap <expr><TAB> pumvisible() ? "\<C-n>" :
 \ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" :
-\ <SID>is_whitespace() ? "\<TAB>" : deoplete#mappings#manual_complete()
+\ <SID>is_whitespace() ? "\<TAB>" : "\<C-n>"
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <F7> <C-\><C-O>:Neomake<CR>
