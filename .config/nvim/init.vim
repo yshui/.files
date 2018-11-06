@@ -34,9 +34,11 @@ call dein#add('ncm2/ncm2-bufword', {'depends' : ['ncm2/ncm2']})
 call dein#add('ncm2/ncm2-path', {'depends' : ['ncm2/ncm2']})
 call dein#add('ncm2/ncm2-tmux', {'depends' : ['ncm2/ncm2']})
 call dein#add('ncm2/ncm2-vim', {'depends' : ['ncm2/ncm2']})
+call dein#add('ncm2/ncm2-ultisnips', {'depends' : ['ncm2/ncm2']})
+call dein#add('SirVer/ultisnips')
 call dein#add('LnL7/vim-nix')
-call dein#add('Shougo/neosnippet.vim')
-call dein#add('Shougo/neosnippet-snippets')
+"call dein#add('Shougo/neosnippet.vim')
+"call dein#add('Shougo/neosnippet-snippets')
 call dein#add('othree/html5.vim')
 call dein#add('tpope/vim-surround')
 call dein#add('chrisbra/SudoEdit.vim')
@@ -230,6 +232,12 @@ autocmd BufWinEnter *.* silent! loadview
 let g:tooltip_border_width=10
 let g:tooltip_background="white"
 let g:tooltip_foreground="black"
+"{{{ ultisnips
+let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+"}}}
 "{{{ Clang paths
 
 let g:__clang_path = '/usr/lib/libclang.so'
@@ -253,6 +261,7 @@ function! s:chords_setup()
 	Arpeggio noremap wq :wq<CR>
 	Arpeggio noremap fq :q!<CR>
 	Arpeggio noremap wr :w<CR>
+	Arpeggio imap ag <Plug>(ncm2_expand_longest)
 endfunction
 
 autocmd VimEnter * call s:chords_setup()
@@ -272,7 +281,7 @@ let g:LanguageClient_serverCommands = {
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_settingsPath = g:nvim_config_dir.'/settings.json'
 let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_hasSnippetSupport = 0
+let g:LanguageClient_hasSnippetSupport = 1
 "}}}
 
 "{{{ AutoPairs/delimitMate
@@ -287,8 +296,8 @@ let g:deoplete#enable_at_startup = 1
 
 let g:deoplete#enable_smart_case = 1
 
-let g:clang2_placeholder_prev = '<s-c-k>'
-let g:clang2_placeholder_next = '<c-k>'
+"let g:clang2_placeholder_prev = '<s-c-k>'
+"let g:clang2_placeholder_next = '<c-k>'
 
 "let g:deoplete#sources#d#dcd_client_binary = "dcd-client"
 "let g:deoplete#sources#d#dcd_server_binary = "dcd-server"
@@ -430,14 +439,62 @@ endfunc
 "noremap <silent><c-t> :call <SID>lc_hover()<CR>
 
 cnoreabbrev Man Snman
-"}}}
 
 inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
+vmap <LeftRelease> "*ygv
+"}}}
+
+"{{{ ncm2 mappings
+
+"imap <c-k> <Plug>(ncm2_expand_longest)
+
+inoremap <expr> <Plug>(ncm2_expand_longest) Ncm2ExpandLongest()
+
+func! Ncm2ExpandLongest()
+    let matches = ncm2#_s('matches')
+    let longest = ''
+    let i = 0
+
+    let j = 0
+    let p = matches[0].word[0:0]
+    while 1
+        let w = matches[i].word
+        if j >= len(w)
+            break
+        endif
+        if p != w[0: j]
+            break
+        endif
+
+        let i += 1
+        if i >= len(matches)
+            let i = 0
+            let longest = w[0: j]
+            let j += 1
+            let p = w[0: j]
+        endif
+    endwhile
 
 
-"{{{ deoplete.vim related mappings
+    let typed = strpart(getline('.'), 0, col('.')-1)
+    let startbcol = ncm2#_s('startbcol')
+    let startbcol = startbcol ? startbcol : 1
+    let del = len(typed[startbcol - 1:])
+
+    let i = 0
+    let del_keys = ""
+    while i < del
+        let del_keys = del_keys . "\<c-h>"
+        let i += 1
+    endwhile
+
+    return del_keys . longest
+endfunc
+"}}}
+
+"{{{ completion related mappings
 imap <expr><CR>  pumvisible() ?
-\ (neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "\<c-y><CR>") :
+\ ncm2_ultisnips#expand_or("\<CR>", 'n') :
 \ "\<CR>\<Plug>AutoPairsReturn"
 
 inoremap <expr><C-h>
@@ -447,7 +504,6 @@ inoremap <expr><BS>
 \ deoplete#mappings#smart_close_popup()."\<C-h>"
 
 imap <expr><TAB> pumvisible() ? "\<C-n>" :
-\ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" :
 \ <SID>is_whitespace() ? "\<TAB>" : "\<C-n>"
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-Tab>"
