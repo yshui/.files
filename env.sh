@@ -1,5 +1,5 @@
 export OPERAPLUGINWRAPPER_PRIORITY=0
-export EDITOR=vim
+export EDITOR=nvim
 export OPERA_KEEP_BLOCKED_PLUGIN=0
 export XMODIFIERS="@im=fcitx"
 export XIM="fcitx"
@@ -7,6 +7,5 @@ export XIM_PROGRAM="fcitx"
 export GTK_IM_MODULE="fcitx"
 export QT_IM_MODULE="fcitx"
 export MPD_HOST=/run/user/$UID/mpd/socket
-export OPERAPLUGINWRAPPER_PRIORITY=0
 export OPERA_KEEP_BLOCKED_PLUGIN=0
 export VDPAU_NVIDIA_NO_OVERLAY=1
