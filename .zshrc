@@ -69,7 +69,7 @@ plugins=(
   shrink-path
 )
 source $ZSH/oh-my-zsh.sh
-source ~/.cargo/env
+source ~/.cargo-musl/env
 
 export LS_COLORS='di=01;34;40:ln=01;35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 
@@ -146,3 +146,21 @@ elif [ "$DISTRO" = "void" ]; then
 	alias sxr="sudo xbps-remove"
 	alias r="sxr -Ro"
 fi
+
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
+	if [ -x /bin/dircolors ]; then
+		eval `dircolors -b ~/.dir_colors`
+		alias ls='ls --color=auto'
+		alias grep='grep --color=auto'
+	fi
+	zstyle ':completion:*:default'         list-colors ${(s.:.)LS_COLORS}
+fi
+
