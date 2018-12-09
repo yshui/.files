@@ -139,8 +139,8 @@ if [ "$DISTRO" = "Arch Linux" ]; then
 	alias u="sp -Syu"
 	alias i="sp -S"
 	alias r="sp -Rsc"
-	alias ps="p -Ss"
-	alias pl="p -Ql"
+	alias qs="p -Ss"
+	alias ql="p -Ql"
 elif [ "$DISTRO" = "void" ]; then
 	alias sxi="sudo xbps-install"
 	alias i="sxi"
@@ -148,8 +148,8 @@ elif [ "$DISTRO" = "void" ]; then
 	alias sxr="sudo xbps-remove"
 	alias r="sxr -Ro"
 	alias xq="xbps-query"
-	alias ps="xq -Rs"
-	alias pl="xq -f"
+	alias qs="xq -Rs"
+	alias ql="xq -f"
 fi
 
 export LESS_TERMCAP_mb=$'\E[01;31m'
