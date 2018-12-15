@@ -175,7 +175,7 @@ set titlestring=%f\ -\ NVIM
 
 "Return to the last edit position
 autocmd BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \ if line("'\"") > 1 && line("'\"") <= line("$") && expand("%:t") != "COMMIT_EDITMSG" |
   \   exe "normal! g`\"" |
   \ endif
 set mouse=a
@@ -444,7 +444,7 @@ nnoremap <space> :
 cnoreabbrev Man Snman
 
 inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
-vmap <LeftRelease> "*ygv
+"vmap <LeftRelease> "*ygv
 "}}}
 
 "{{{ ncm2 mappings
