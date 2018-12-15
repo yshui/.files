@@ -17,6 +17,21 @@ function! s:dein_clear_unused() "{{{
 	return map(dein#check_clean(), "delete(v:val, 'rf')")
 endfunction "}}}
 
+function! s:tmux_apply_title() "{{{
+	call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
+endfunc "}}}
+
+function! s:tmux_reset_title() "{{{
+	call system("tmux set-window-option automatic-rename on")
+endfunc "}}}
+
+function s:lc_hover()
+	let r = LanguageClient_textDocument_hoverSync()
+	if type(r) != 7
+		call ShowTooltip(screenrow(), screencol(), r["contents"][0]["value"])
+	endif
+endfunc
+
 command DeinClear call s:dein_clear_unused()
 "}}}
 
@@ -150,12 +165,6 @@ source $VIMRUNTIME/menu.vim
 "{{{ Basic vim configurations
 
 "Set tmux window name and title
-function! s:tmux_apply_title()
-	call system("tmux rename-window \"nvim: ".expand("%:t")."\"")
-endfunc
-function! s:tmux_reset_title()
-	call system("tmux set-window-option automatic-rename on")
-endfunc
 autocmd VimEnter * call s:tmux_apply_title()
 autocmd BufEnter * call s:tmux_apply_title()
 autocmd VimResume * call s:tmux_apply_title()
@@ -428,12 +437,6 @@ noremap  <buffer> <silent> <Down> gj
 noremap  <buffer> <silent> <Home> g<Home>
 noremap  <buffer> <silent> <End>  g<End>
 nnoremap <space> :
-function s:lc_hover()
-	let r = LanguageClient_textDocument_hoverSync()
-	if type(r) != 7
-		call ShowTooltip(screenrow(), screencol(), r["contents"][0]["value"])
-	endif
-endfunc
 "autocmd CursorHold *.c call s:lc_hover()
 "autocmd CursorMoved *.c call HideTooltip()
 "noremap <silent><c-t> :call <SID>lc_hover()<CR>
