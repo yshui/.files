@@ -157,29 +157,3 @@
        ;; library, and additional ex commands for evil-mode. Use it as a
        ;; reference for your own modules.
        (default +bindings))
-
-(setq warning-minimum-level :error)
-(setq doom-font (font-spec :family "DeTerminus"))
-(setq confirm-kill-emacs nil)
-(setq evil-motion-state-cursor 'box)  ; █
-(setq evil-visual-state-cursor 'box)  ; █
-(setq evil-normal-state-cursor 'box)  ; █
-(setq evil-insert-state-cursor 'bar)  ; ⎸
-(setq evil-emacs-state-cursor  'hbar) ; _')
-;(add-hook 'after-init-hook 'global-company-mode)
-(xterm-mouse-mode 1)
-(defun on-after-init ()
-  (unless (display-graphic-p (selected-frame))
-    (set-face-background 'default "unspecified-bg" (selected-frame))))
-(unless (display-graphic-p)
-        (evil-terminal-cursor-changer-activate) ; or (etcc-on)
-)
-(add-hook 'c-mode-hook #'lsp)
-
-(use-package company-lsp
-             :config (push 'company-lsp company-backends)
-                     (setq company-lsp-enable-snippet t))
-(use-package ccls)
-(use-package lsp-mode
-             :commands lsp
-             :config (setq lsp-enable-snippet t))
