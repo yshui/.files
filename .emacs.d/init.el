@@ -1,3 +1,4 @@
+;; -*- origami-fold-style: triple-braces -*-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -11,15 +12,45 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(add-to-list 'load-path "~/.emacs.d/lisp")
 (straight-use-package 'use-package)
+
+;{{{
 (use-package evil
-  :straight t)
+             :straight t)
 (use-package helm
-  :straight t)
+             :straight t)
 (use-package evil-terminal-cursor-changer
-  :straight t)
+             :straight t)
 (use-package doom-themes
-  :straight t)
+             :straight t)
+(use-package lsp-ui
+             :straight t
+             :commands lsp-ui-mode)
+(use-package lsp-mode
+             :straight t
+             :commands lsp)
+(use-package ccls
+             :straight t)
+(use-package company
+             :straight t)
+(use-package company-lsp
+             :straight t)
+(use-package projectile
+             :straight t)
+(use-package helm-projectile
+             :straight t)
+(use-package helm-descbinds
+             :straight t)
+(use-package helm-ag
+             :straight t)
+(use-package origami
+             :straight t)
+;}}}
+(require 'helm-everywhere)
+
+(projectile-mode +1)
+(global-origami-mode 1)
 
 (load-theme 'doom-molokai t)
 (evil-mode 1)
@@ -43,3 +74,12 @@
       kept-old-versions 2
       version-control t)
 (save-place-mode 1)
+(add-hook 'c-mode-hook #'lsp)
+(add-hook 'after-init-hook 'global-company-mode)
+(push 'company-lsp company-backends)
+;(menu-bar-mode -1)
+(xterm-mouse-mode 1)
+(setq custom-file "~/.emacs.d/lisp/custom.el")
+(load custom-file)
+(setq scroll-conservatively 10000)
+; vim: set et ts=2 sw=2 :
