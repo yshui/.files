@@ -4,6 +4,7 @@
 (package! lsp-mode)
 (package! company-lsp)
 (package! ccls)
-(package! flycheck)
 (package! lsp-ui)
+;(package! flycheck)
 (package! yasnippet)
+;(package! flycheck-clang-tidy)
