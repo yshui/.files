@@ -2,43 +2,46 @@
 (setq doom-font (font-spec :family "DeTerminus"))
 (setq confirm-kill-emacs nil)
 (def-package! evil-terminal-cursor-changer
-              :commands (evil-terminal-cursor-changer-activate etcc-on)
-              :config
-              (setq evil-motion-state-cursor 'box)  ; █
-              (setq evil-visual-state-cursor 'box)  ; █
-              (setq evil-normal-state-cursor 'box)  ; █
-              (setq evil-insert-state-cursor 'bar)  ; ⎸
-              (setq evil-emacs-state-cursor  'hbar)) ; _')
+  :commands (evil-terminal-cursor-changer-activate etcc-on)
+  :config
+  (setq evil-motion-state-cursor 'box)  ; █
+  (setq evil-visual-state-cursor 'box)  ; █
+  (setq evil-normal-state-cursor 'box)  ; █
+  (setq evil-insert-state-cursor 'bar)  ; ⎸
+  (setq evil-emacs-state-cursor  'hbar)) ; _')
 (xterm-mouse-mode 1)
-(defun on-after-init ()
-  (unless (display-graphic-p (selected-frame))
-    (set-face-background 'default "unspecified-bg" (selected-frame))))
-(add-hook 'window-setup-hook 'on-after-init)
-(unless (display-graphic-p)
-        (evil-terminal-cursor-changer-activate)) ; or (etcc-on)
+(evil-terminal-cursor-changer-activate)
+(defun process-frame (frame)
+  (unless (display-graphic-p frame)
+    (set-face-background 'default "unspecified-bg" frame)))
+
+(defun on-reload-theme (&rest _)
+  (dolist (frame (frame-list))
+    (process-frame frame)))
+
+; Change background color on theme reload, append the hook because
+; some doom-emacs modules want to change color too
+(add-hook 'doom-load-theme-hook #'on-reload-theme t)
+; Change background color on frame creation as well
+(add-hook 'window-setup-hook (lambda () (process-frame (selected-frame))))
+(add-hook 'after-make-frame-functions #'process-frame)
 
 (def-package! company-lsp
-              :commands company-lsp
-              :config (push 'company-lsp company-backends)
-                     (setq company-lsp-enable-snippet t))
+  :commands company-lsp
+  :config (push 'company-lsp company-backends)
+  (setq company-lsp-enable-snippet t))
 (def-package! ccls)
 (def-package! lsp-ui-flycheck)
 (def-package! lsp-mode
-              :commands lsp
-              :hook ((c-mode c++-mode) . lsp)
-              :config (setq lsp-enable-snippet t)
-                      (setq lsp-prefer-flymake nil))
+  :commands lsp
+  :hook ((c-mode c++-mode rust-mode) . lsp)
+  :config (setq lsp-enable-snippet t)
+  (setq lsp-prefer-flymake nil))
 (def-package! lsp-ui)
-;(def-package! flycheck
-;              :commands global-flycheck-mode
-;              :config (setq-default flycheck-disabled-checkers '(c/c++-clang)))
-(set-company-backend! '(c-mode c++-mode cuda-mode objc-mode) 'company-lsp)
-;(add-hook 'after-init-hook #'global-flycheck-mode)
+(set-company-backend! '(c-mode c++-mode cuda-mode objc-mode rust-mode) 'company-lsp)
 (def-package! flycheck-clang-tidy
   :after flycheck
   :load-path (lambda () (file-name-directory load-file-name))
   :commands flycheck-clang-tidy-setup
   :config (setq flycheck-clang-tidy-build-path ".")
   :hook ((lsp-mode) . flycheck-clang-tidy-setup))
-
-(add-to-list 'flycheck-checkers 'c/c++-clang-tidy)
