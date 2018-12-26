@@ -13,7 +13,7 @@
 (evil-terminal-cursor-changer-activate)
 (defun process-frame (frame)
   (unless (display-graphic-p frame)
-    (set-face-background 'default "unspecified-bg" frame)))
+    (set-face-background 'solaire-default-face "unspecified-bg" frame)))
 
 (defun on-reload-theme (&rest _)
   (dolist (frame (frame-list))
@@ -79,3 +79,4 @@ temporary/special buffers in `font-lock-comment-face'."
 
 ; Load theme after window-setup to make sure customize-set-variable is called
 (add-hook 'window-setup-hook (lambda () (load-theme 'my-molokai)))
+(add-hook 'window-setup-hook #'turn-on-solaire-mode)
