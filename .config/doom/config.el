@@ -26,6 +26,36 @@
 (add-hook 'window-setup-hook (lambda () (process-frame (selected-frame))))
 (add-hook 'after-make-frame-functions #'process-frame)
 
+; doom-emacs' +ivy-rich-buffer-name uses common faces like font-lock-comment-face.
+; Which is not nice. We override it.
+(defface ivy-file-buffer '((t :foreground "white")) "Face for file buffer in ivy-switch-buffer")
+(defface ivy-project-file-buffer '((t :inherit ivy-file-buffer)) "Face for project file buffer in ivy-switch-buffer")
+(defface ivy-non-file-buffer '((t :foreground "grey")) "Face for non file buffer in ivy-switch-buffer")
+(defun my/ivy-rich-buffer-name (candidate)
+  "Display the buffer name.
+
+Displays buffers in other projects in `font-lock-doc-face', and
+temporary/special buffers in `font-lock-comment-face'."
+  (with-current-buffer (get-buffer candidate)
+    ; Don't override face when it is already set
+    (if (get-text-property 0 'face candidate)
+        candidate
+      (propertize candidate
+                  'face (cond ((string-match-p "^ *\\*" candidate)
+                               'ivy-non-file-buffer)
+                              ((not buffer-file-name) 'ivy-non-file-buffer)
+                              ((file-in-directory-p buffer-file-name
+                                                    (or (doom-project-root)
+                                                        default-directory))
+                               'ivy-project-file-buffer)
+                              (t 'ivy-file-buffer))))))
+(after! ivy-rich
+  (let* ((plist (plist-get ivy-rich--display-transformers-list 'ivy-switch-buffer))
+         (colplist (plist-get plist :columns))
+         (switch-buffer-alist (assq '+ivy-rich-buffer-name colplist)))
+    (when switch-buffer-alist
+      (setcar switch-buffer-alist #'my/ivy-rich-buffer-name))))
+
 (def-package! company-lsp
   :commands company-lsp
   :config (push 'company-lsp company-backends)
