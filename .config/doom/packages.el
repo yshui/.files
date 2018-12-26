@@ -8,3 +8,4 @@
 ;(package! flycheck)
 (package! yasnippet)
 ;(package! flycheck-clang-tidy)
+;(package! helm-rg)
