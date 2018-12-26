@@ -76,3 +76,6 @@ temporary/special buffers in `font-lock-comment-face'."
   :config (setq flycheck-clang-tidy-build-path ".")
   :hook ((lsp-mode) . flycheck-clang-tidy-setup))
 (advice-add 'lsp-ui-flycheck--report :before (lambda () (flycheck-clear t)))
+
+; Load theme after window-setup to make sure customize-set-variable is called
+(add-hook 'window-setup-hook (lambda () (load-theme 'my-molokai)))
