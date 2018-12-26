@@ -45,3 +45,4 @@
   :commands flycheck-clang-tidy-setup
   :config (setq flycheck-clang-tidy-build-path ".")
   :hook ((lsp-mode) . flycheck-clang-tidy-setup))
+(advice-add 'lsp-ui-flycheck--report :before (lambda () (flycheck-clear t)))
