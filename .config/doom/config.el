@@ -81,9 +81,5 @@ temporary/special buffers in `font-lock-comment-face'."
 (add-hook 'window-setup-hook (lambda () (load-theme 'my-molokai)))
 (def-package! elec-pair
   :hook ((c-mode c++-mode) . electric-pair-mode))
-(def-package! powerline)
-(def-package! powerline-evil)
-(def-package! spaceline)
-(def-package! spaceline-config
-  :config (setq spaceline-highlight-face-func #'spaceline-highlight-face-evil-state)
-  (spaceline-emacs-theme))
+(def-package! telephone-line
+  :config (telephone-line-mode 1))
