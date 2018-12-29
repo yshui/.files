@@ -84,8 +84,13 @@ temporary/special buffers in `font-lock-comment-face'."
 (def-package! telephone-line
   :config (telephone-line-mode 1))
 
-(defun clear-fontify ()
+(define-minor-mode fontify-line-limit-mode
+  "Make sure the highlighting doesn't extend beyond the end of line."
+  :lighter ""
+  :init-value nil
   (font-lock-add-keywords nil '(("\n" . (0 font-lock-function-name-face t))) t))
 
-(add-hook 'window-setup-hook #'clear-fontify)
-(add-hook 'change-major-mode-hook #'clear-fontify)
+(define-globalized-minor-mode global-fontify-line-limit-mode
+  fontify-line-limit-mode (lambda () (fontify-line-limit-mode t)))
+
+(global-fontify-line-limit-mode 1)
