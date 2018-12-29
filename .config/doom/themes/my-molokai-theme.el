@@ -86,6 +86,7 @@ determine the exact padding."
   ;; --- extra faces ------------------------
   ((lazy-highlight :background violet :foreground base0 :distant-foreground base0 :bold bold)
    (cursor :background magenta)
+   (font-lock-comment-face :foreground comments :background base2)
 
    (mode-line
     :background base3 :foreground base8

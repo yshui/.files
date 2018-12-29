@@ -83,3 +83,9 @@ temporary/special buffers in `font-lock-comment-face'."
   :hook ((c-mode c++-mode) . electric-pair-mode))
 (def-package! telephone-line
   :config (telephone-line-mode 1))
+
+(defun clear-fontify ()
+  (font-lock-add-keywords nil '(("\n" . (0 font-lock-function-name-face t))) t))
+
+(add-hook 'window-setup-hook #'clear-fontify)
+(add-hook 'change-major-mode-hook #'clear-fontify)
