@@ -114,6 +114,7 @@ if not restarted then
         di.spawn.run({"syncthing", "-no-browser"}, true)
         di.spawn.run({"syncthing-inotify"}, true)
         di.spawn.run({"jack_control", "start"}, true)
+        di.spawn.run({"emacs", "--daemon"}, true)
     end
     -- test if a dbus daemon is already running and reachable
     local bus = di.dbus.session_bus
