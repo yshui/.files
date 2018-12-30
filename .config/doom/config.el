@@ -96,3 +96,4 @@ temporary/special buffers in `font-lock-comment-face'."
 (global-fontify-line-limit-mode 1)
 (setq whitespace-style '(face trailing tabs newline newline-mark tab-mark))
 (global-whitespace-mode)
+(setq which-key-idle-delay 0.1)
