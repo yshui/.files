@@ -69,7 +69,11 @@ plugins=(
   shrink-path
 )
 source $ZSH/oh-my-zsh.sh
-source ~/.cargo-musl/env
+source ~/.cargo/env
+
+fzf_base=/usr/share/doc/fzf
+[ -e "$fzf_base/completion.zsh" ] && source $fzf_base/completion.zsh
+[ -e "$fzf_base/key-bindings.zsh" ] && source $fzf_base/key-bindings.zsh
 
 export LS_COLORS='di=01;34;40:ln=01;35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 
