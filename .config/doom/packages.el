@@ -12,3 +12,4 @@
 ;; (package! powerline-evil)
 ;; (package! flycheck-clang-tidy)
 ;; (package! helm-rg)
+(package! undo-tree :recipe (:fetcher git :url "http://www.dr-qubit.org/git/undo-tree.git/"))
