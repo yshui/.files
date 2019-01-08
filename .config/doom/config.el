@@ -80,7 +80,7 @@ temporary/special buffers in `font-lock-comment-face'."
 ; Load theme after window-setup to make sure customize-set-variable is called
 (add-hook 'window-setup-hook (lambda () (load-theme 'my-molokai)))
 (def-package! elec-pair
-  :hook ((c-mode c++-mode) . electric-pair-mode))
+  :hook ((c-mode c++-mode rust-mode) . electric-pair-mode))
 (def-package! telephone-line
   :config (telephone-line-mode 1))
 
@@ -105,3 +105,4 @@ temporary/special buffers in `font-lock-comment-face'."
     :priority -1
     :server-id 'ddls))
 
+(after! rust-mode (set-electric! '(rust-mode) :chars '(?\n ?\})))
