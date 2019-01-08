@@ -93,6 +93,7 @@ temporary/special buffers in `font-lock-comment-face'."
 (define-globalized-minor-mode global-fontify-line-limit-mode
   fontify-line-limit-mode (lambda () (fontify-line-limit-mode t)))
 
+(setq ccls-args '("--log-file=/tmp/ccls.log"))
 (global-fontify-line-limit-mode 1)
 (setq whitespace-style '(face trailing tabs newline newline-mark tab-mark))
 (global-whitespace-mode)
