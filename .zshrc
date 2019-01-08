@@ -72,6 +72,7 @@ source $ZSH/oh-my-zsh.sh
 source ~/.cargo/env
 
 fzf_base=/usr/share/doc/fzf
+[ -d "$fzf_base/completion.zsh" ] || fzf_base=/usr/share/fzf
 [ -e "$fzf_base/completion.zsh" ] && source $fzf_base/completion.zsh
 [ -e "$fzf_base/key-bindings.zsh" ] && source $fzf_base/key-bindings.zsh
 
@@ -174,4 +175,5 @@ if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
 fi
 
 alias ec='emacsclient -a "" -nw'
+alias ecw='emacsclient -a "" -c'
 alias eck='emacsclient -e "(kill-emacs)"'
