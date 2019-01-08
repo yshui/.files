@@ -107,3 +107,4 @@ temporary/special buffers in `font-lock-comment-face'."
     :server-id 'ddls))
 
 (after! rust-mode (set-electric! '(rust-mode) :chars '(?\n ?\})))
+(solaire-global-mode 1)
