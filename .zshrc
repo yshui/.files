@@ -173,3 +173,5 @@ if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
 	zstyle ':completion:*:default'         list-colors ${(s.:.)LS_COLORS}
 fi
 
+alias ec='emacsclient -a "" -nw'
+alias eck='emacsclient -e "(kill-emacs)"'
