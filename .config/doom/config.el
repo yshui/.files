@@ -63,7 +63,7 @@ temporary/special buffers in `font-lock-comment-face'."
 (def-package! ccls)
 (def-package! lsp-ui-flycheck)
 (def-package! lsp-mode
-  :commands lsp
+  :commands (lsp lsp-register-client)
   :hook ((c-mode c++-mode rust-mode) . lsp)
   :config (setq lsp-enable-snippet t)
   (setq lsp-prefer-flymake nil))
@@ -97,3 +97,11 @@ temporary/special buffers in `font-lock-comment-face'."
 (setq whitespace-style '(face trailing tabs newline newline-mark tab-mark))
 (global-whitespace-mode)
 (setq which-key-idle-delay 0.1)
+
+(lsp-register-client
+  (make-lsp-client
+    :new-connection (lsp-stdio-connection "dls")
+    :major-modes '(d-mode)
+    :priority -1
+    :server-id 'ddls))
+
