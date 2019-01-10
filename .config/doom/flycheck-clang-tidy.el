@@ -22,6 +22,7 @@
 ;;; Code:
 
 (require 'flycheck)
+(require 'seq)
 (require 'json)
 
 (flycheck-def-config-file-var flycheck-clang-tidy c/c++-clang-tidy ".clang-tidy"
@@ -50,6 +51,17 @@ CMake option to get this output)."
          (cmds (json-read-file cmds-file)))
     (seq-find (lambda (cmd) (string= (expand-file-name (alist-get 'file cmd) (alist-get 'directory cmd)) file)) cmds)))
 
+(defconst flycheck-clang-tidy-bad-arguments (list "-pipe"))
+(defconst flycheck-clang-tidy-bad-arguments-dict
+  (let ((ret (make-hash-table :test 'equal)))
+    (dolist (a flycheck-clang-tidy-bad-arguments)
+      (puthash a t ret)) ret))
+
+(defun flycheck-clang-tidy-remove-bad-arguments (cmd)
+  (cond ((stringp cmd) (replace-regexp-in-string (mapconcat 'identity flycheck-clang-tidy-bad-arguments "|") "" cmd))
+        ((listp cmd) (seq-filter (lambda (x) (not (gethash x flycheck-clang-tidy-bad-arguments-dict nil))) cmd))))
+
+
 (defun flycheck-clang-tidy-expand-file-name (file)
   "Expand a file name in compile_commands.json to absolute path"
   (let* ((cmds-file (concat (flycheck-clang-tidy-find-root) "/" flycheck-clang-tidy-build-path "/"
@@ -66,12 +78,14 @@ CMake option to get this output)."
          (command (alist-get 'command cmd))
          (args (alist-get 'arguments cmd)))
     (if command (list (cons 'directory directory)
-                      (cons 'command (replace-regexp-in-string (regexp-quote xfile)
-                                                               source command))
+                      (cons 'command (flycheck-clang-tidy-remove-bad-arguments
+                                      (replace-regexp-in-string (regexp-quote xfile)
+                                                               source command)))
                       (cons 'file source))
       (list (cons 'directory directory)
             (cons 'file source)
-            (cons 'arguments (mapcar (lambda (x) (if (string= x xfile) source x)) args))))))
+            (cons 'arguments (flycheck-clang-tidy-remove-bad-arguments
+                              (mapcar (lambda (x) (if (string= x xfile) source x)) args)))))))
 
 (defun flycheck-clang-tidy-make-temp-compile-command (file source)
   "Create a temporary build command file for FILE with SOURCE."
