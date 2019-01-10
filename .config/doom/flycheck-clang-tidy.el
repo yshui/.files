@@ -61,12 +61,17 @@ CMake option to get this output)."
 (defun flycheck-clang-tidy-temp-compile-command (file source)
   "Return compile command for FILE with source located in SOURCE."
   (let* ((cmd (flycheck-clang-tidy-compile-command file))
+         (xfile (alist-get 'file cmd))
          (directory (alist-get 'directory cmd))
-         (command (alist-get 'command cmd)))
-    (when cmd (list (cons 'directory directory)
-                  (cons 'command (replace-regexp-in-string (regexp-quote file)
-                                                           source command))
-                  (cons 'file source)))))
+         (command (alist-get 'command cmd))
+         (args (alist-get 'arguments cmd)))
+    (if command (list (cons 'directory directory)
+                      (cons 'command (replace-regexp-in-string (regexp-quote xfile)
+                                                               source command))
+                      (cons 'file source))
+      (list (cons 'directory directory)
+            (cons 'file source)
+            (cons 'arguments (mapcar (lambda (x) (if (string= x xfile) source x)) args))))))
 
 (defun flycheck-clang-tidy-make-temp-compile-command (file source)
   "Create a temporary build command file for FILE with SOURCE."
