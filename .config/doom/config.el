@@ -78,7 +78,7 @@ temporary/special buffers in `font-lock-comment-face'."
 (advice-add 'lsp-ui-flycheck--report :before (lambda () (flycheck-stop)))
 
 ; Load theme after window-setup to make sure customize-set-variable is called
-(add-hook 'window-setup-hook (lambda () (load-theme 'my-molokai)))
+(add-hook 'after-init-hook (lambda () (load-theme 'my-molokai)))
 (def-package! elec-pair
   :hook ((c-mode c++-mode rust-mode) . electric-pair-mode))
 (def-package! telephone-line
