@@ -11,7 +11,7 @@
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
        syntax-checker    ; tasing you for every semicolon you forget
-       workspaces        ; tab emulation, persistence & separate workspaces
+       ;workspaces        ; tab emulation, persistence & separate workspaces
 
        :completion
        (company +auto)           ; the ultimate code completion backend
