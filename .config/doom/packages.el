@@ -15,3 +15,5 @@
 (package! undo-tree :recipe (:fetcher git :url "http://www.dr-qubit.org/git/undo-tree.git/"))
 (package! d-mode)
 (package! solaire-mode :recipe (:fetcher github :repo "yshui/emacs-solaire-mode"))
+(package! meson-mode)
+(package! racer :disable t)
