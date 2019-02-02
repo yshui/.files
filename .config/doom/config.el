@@ -108,3 +108,6 @@ temporary/special buffers in `font-lock-comment-face'."
 
 (after! rust-mode (set-electric! '(rust-mode) :chars '(?\n ?\})))
 (solaire-global-mode 1)
+
+(setq custom-file (concat (file-name-directory load-file-name) "custom.el"))
+;(load custom-file)
