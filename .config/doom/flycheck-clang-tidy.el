@@ -137,7 +137,7 @@ See URL `https://github.com/ch1bo/flycheck-clang-tidy'."
 (defun flycheck-clang-tidy-setup ()
   "Setup Flycheck clang-tidy."
   (add-to-list 'flycheck-checkers 'c/c++-clang-tidy)
-  (when lsp-mode (flycheck-add-next-checker 'lsp-ui '(error . c/c++-clang-tidy))))
+  (when lsp-mode (flycheck-add-next-checker 'lsp-ui '(warning . c/c++-clang-tidy))))
 
 (provide 'flycheck-clang-tidy)
 ;;; flycheck-clang-tidy.el ends here
