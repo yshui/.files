@@ -111,3 +111,4 @@ temporary/special buffers in `font-lock-comment-face'."
 
 (setq custom-file (concat (file-name-directory load-file-name) "custom.el"))
 ;(load custom-file)
+(ranger-override-dired-mode t)
