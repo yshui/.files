@@ -17,3 +17,4 @@
 (package! solaire-mode :recipe (:fetcher github :repo "yshui/emacs-solaire-mode"))
 (package! meson-mode)
 (package! racer :disable t)
+(package! xclip)
