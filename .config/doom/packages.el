@@ -1,4 +1,4 @@
-;; -*- no-byte-compile: t; -*-
+;; -*- no-byte-compile: t; lexical-binding: t; -*-
 ;;; ~/.config/doom/packages.el
 (package! evil-terminal-cursor-changer)
 (package! lsp-mode)
