@@ -1,3 +1,4 @@
+;;; config.el -*- lexical-binding: t; -*-
 (setq warning-minimum-level :error)
 (setq doom-font (font-spec :family "DeTerminus"))
 (setq confirm-kill-emacs nil)
@@ -25,6 +26,8 @@
 ; Change background color on frame creation as well
 (add-hook 'window-setup-hook (lambda () (process-frame (selected-frame))))
 (add-hook 'after-make-frame-functions #'process-frame)
+;; (when (getenv "XDG_RUNTIME_DIR")
+;;   (setq server-socket-dir (concat (getenv "XDG_RUNTIME_DIR") "/emacs")))
 
 ; doom-emacs' +ivy-rich-buffer-name uses common faces like font-lock-comment-face.
 ; Which is not nice. We override it.
