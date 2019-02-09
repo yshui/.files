@@ -22,7 +22,6 @@
 ;;; Code:
 
 (require 'flycheck)
-(require 'seq)
 (require 'json)
 
 (flycheck-def-config-file-var flycheck-clang-tidy c/c++-clang-tidy ".clang-tidy"
