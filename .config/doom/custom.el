@@ -10,7 +10,7 @@
    ["#1B2229" "#ff6c6b" "#98be65" "#ECBE7B" "#51afef" "#c678dd" "#46D9FF" "#DFDFDF"])
  '(custom-safe-themes
    (quote
-    ("100e7c5956d7bb3fd0eebff57fde6de8f3b9fafa056a2519f169f85199cc1c96" "0f7739f714cf53a7de1e93142ee2207c69b4bdc14be240ae8d706d69b0ba36ac" "21206a574da097171739b3042b2652e1d9f24c841bb383282de48bfad1d86fb4" "93e3bd3153b4ea94630e6ee5cdef8665c649156a29fa1815666731f6eaad83d7" default)))
+    ("6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "100e7c5956d7bb3fd0eebff57fde6de8f3b9fafa056a2519f169f85199cc1c96" "0f7739f714cf53a7de1e93142ee2207c69b4bdc14be240ae8d706d69b0ba36ac" "21206a574da097171739b3042b2652e1d9f24c841bb383282de48bfad1d86fb4" "93e3bd3153b4ea94630e6ee5cdef8665c649156a29fa1815666731f6eaad83d7" default)))
  '(fci-rule-color "#5B6268")
  '(jdee-db-active-breakpoint-face-colors (cons "#1B2229" "#51afef"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#1B2229" "#98be65"))
