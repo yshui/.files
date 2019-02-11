@@ -71,7 +71,8 @@ temporary/special buffers in `font-lock-comment-face'."
   :config (setq lsp-enable-snippet t)
   (setq lsp-prefer-flymake nil))
 (def-package! lsp-ui)
-(set-company-backend! '(c-mode c++-mode cuda-mode objc-mode rust-mode) 'company-lsp)
+(set-company-backend! :derived 'prog-mode '(company-files))
+(set-company-backend! 'lsp-mode '(company-lsp))
 (def-package! flycheck-clang-tidy
   :after flycheck
   :load-path (lambda () (file-name-directory load-file-name))
