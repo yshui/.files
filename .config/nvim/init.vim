@@ -42,14 +42,16 @@ let g:dein#install_process_timeout=99999
 call dein#begin(expand('~/.config/nvim/dein/'))
 
 call dein#add('Shougo/dein.vim')
+call dein#add('bhurlow/vim-parinfer')
 "call dein#add('Shougo/deoplete.nvim', {'merged': 0})
 call dein#add('roxma/nvim-yarp')
-call dein#add('ncm2/ncm2', {'depends' : ['roxma/nvim-yarp']})
-call dein#add('ncm2/ncm2-bufword', {'depends' : ['ncm2/ncm2']})
-call dein#add('ncm2/ncm2-path', {'depends' : ['ncm2/ncm2']})
-call dein#add('ncm2/ncm2-tmux', {'depends' : ['ncm2/ncm2']})
-call dein#add('ncm2/ncm2-vim', {'depends' : ['ncm2/ncm2']})
-call dein#add('ncm2/ncm2-ultisnips', {'depends' : ['ncm2/ncm2']})
+call dein#add('neoclide/coc.nvim', { 'build': 'yarn install'})
+"call dein#add('ncm2/ncm2', {'depends' : ['roxma/nvim-yarp']})
+"call dein#add('ncm2/ncm2-bufword', {'depends' : ['ncm2/ncm2']})
+"call dein#add('ncm2/ncm2-path', {'depends' : ['ncm2/ncm2']})
+"call dein#add('ncm2/ncm2-tmux', {'depends' : ['ncm2/ncm2']})
+"call dein#add('ncm2/ncm2-vim', {'depends' : ['ncm2/ncm2']})
+"call dein#add('ncm2/ncm2-ultisnips', {'depends' : ['ncm2/ncm2']})
 call dein#add('SirVer/ultisnips')
 call dein#add('LnL7/vim-nix')
 "call dein#add('Shougo/neosnippet.vim')
@@ -90,7 +92,7 @@ call dein#add('kana/vim-arpeggio')
 call dein#add('editorconfig/editorconfig-vim')
 call dein#add('arakashic/chromatica.nvim', {'merged': 0})
 "call dein#add('mhartington/nvim-typescript', {'depends' : ['deoplete.nvim']})
-call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'make release'})
+"call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'make release'})
 call dein#add('yshui/tooltip.nvim')
 call dein#add('udalov/kotlin-vim')
 
@@ -258,6 +260,11 @@ let g:chromatica#highlight_feature_level = 0
 let g:chromatica#responsive_mode = 1
 let g:chromatica#enable_at_startup = 1
 "}}}
+"{{{Parinfer
+"Disable Parinfer filetype commands by default
+let g:vim_parinfer_filetypes = []
+let g:vim_parinfer_globs = [ "*.el", "*.lisp", "*.scm" ]
+"}}}
 "{{{ Arpeggio
 function! s:chords_setup()
 	Arpeggio inoremap ji <ESC>
@@ -270,15 +277,15 @@ function! s:chords_setup()
 	Arpeggio noremap wq :wq<CR>
 	Arpeggio noremap fq :q!<CR>
 	Arpeggio noremap wr :w<CR>
-	Arpeggio imap ag <Plug>(ncm2_expand_longest)
+	"Arpeggio imap ag <Plug>(ncm2_expand_longest)
 endfunction
 
 autocmd VimEnter * call s:chords_setup()
 "}}}
 "{{{ ncm2
-au BufEnter * call ncm2#enable_for_buffer()
-au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-au User Ncm2PopupClose set completeopt=menuone
+"au BufEnter * call ncm2#enable_for_buffer()
+"au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+"au User Ncm2PopupClose set completeopt=menuone
 "}}}
 "{{{ LanguageClient
 let g:LanguageClient_serverCommands = {
@@ -451,54 +458,13 @@ inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 
 "imap <c-k> <Plug>(ncm2_expand_longest)
 
-inoremap <expr> <Plug>(ncm2_expand_longest) Ncm2ExpandLongest()
-
-func! Ncm2ExpandLongest()
-    let matches = ncm2#_s('matches')
-    let longest = ''
-    let i = 0
-
-    let j = 0
-    let p = matches[0].word[0:0]
-    while 1
-        let w = matches[i].word
-        if j >= len(w)
-            break
-        endif
-        if p != w[0: j]
-            break
-        endif
-
-        let i += 1
-        if i >= len(matches)
-            let i = 0
-            let longest = w[0: j]
-            let j += 1
-            let p = w[0: j]
-        endif
-    endwhile
-
-
-    let typed = strpart(getline('.'), 0, col('.')-1)
-    let startbcol = ncm2#_s('startbcol')
-    let startbcol = startbcol ? startbcol : 1
-    let del = len(typed[startbcol - 1:])
-
-    let i = 0
-    let del_keys = ""
-    while i < del
-        let del_keys = del_keys . "\<c-h>"
-        let i += 1
-    endwhile
-
-    return del_keys . longest
-endfunc
+"inoremap <expr> <Plug>(ncm2_expand_longest) Ncm2ExpandLongest()
 "}}}
 
 "{{{ completion related mappings
-imap <expr><CR>  pumvisible() ?
-\ ncm2_ultisnips#expand_or("\<CR>", 'n') :
-\ "\<CR>\<Plug>AutoPairsReturn"
+"imap <expr><CR>  pumvisible() ?
+"\ ncm2_ultisnips#expand_or("\<CR>", 'n') :
+"\ "\<CR>\<Plug>AutoPairsReturn"
 
 inoremap <expr><C-h>
 \ deoplete#mappings#smart_close_popup()."\<C-h>"
