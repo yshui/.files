@@ -65,6 +65,7 @@ call dein#add('scrooloose/nerdtree')
 call dein#add('mattn/emmet-vim')
 call dein#add('plasticboy/vim-markdown')
 call dein#add('jiangmiao/auto-pairs')
+call dein#add('rust-lang/rust.vim')
 "call dein#add('Raimondi/delimitMate')
 call dein#add('Matt-Deacalion/vim-systemd-syntax')
 call dein#add('neomake/neomake')
@@ -265,6 +266,9 @@ let g:chromatica#enable_at_startup = 1
 let g:vim_parinfer_filetypes = []
 let g:vim_parinfer_globs = [ "*.el", "*.lisp", "*.scm" ]
 "}}}
+"{{{
+let g:coc_global_extensions = [ "coc-rls" ]
+"}}}
 "{{{ Arpeggio
 function! s:chords_setup()
 	Arpeggio inoremap ji <ESC>
@@ -462,9 +466,7 @@ inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 "}}}
 
 "{{{ completion related mappings
-"imap <expr><CR>  pumvisible() ?
-"\ ncm2_ultisnips#expand_or("\<CR>", 'n') :
-"\ "\<CR>\<Plug>AutoPairsReturn"
+imap <expr><CR>  "\<CR>\<Plug>AutoPairsReturn"
 
 inoremap <expr><C-h>
 \ deoplete#mappings#smart_close_popup()."\<C-h>"
