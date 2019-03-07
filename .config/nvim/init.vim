@@ -468,11 +468,11 @@ inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 "{{{ completion related mappings
 imap <expr><CR>  "\<CR>\<Plug>AutoPairsReturn"
 
-inoremap <expr><C-h>
-\ deoplete#mappings#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-h>
+"\ deoplete#mappings#smart_close_popup()."\<C-h>"
 
-inoremap <expr><BS>
-\ deoplete#mappings#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS>
+"\ deoplete#mappings#smart_close_popup()."\<C-h>"
 
 imap <expr><TAB> pumvisible() ? "\<C-n>" :
 \ <SID>is_whitespace() ? "\<TAB>" : "\<C-n>"
