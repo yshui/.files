@@ -114,15 +114,6 @@ func! s:idle_callback(timer)
 	Neomake
 endfunc
 
-func! s:input_callback()
-	if g:idle_timer >= 0
-		call timer_stop(g:idle_timer)
-	endif
-	let g:idle_timer = timer_start(5000, function('s:idle_callback'), {'repeat': 1})
-endfunc
-
-autocmd InsertCharPre * call s:input_callback()
-
 "Experimenting with long press key map
 let g:press_timer = -1
 let g:repeat_count = -1
@@ -267,7 +258,7 @@ let g:vim_parinfer_filetypes = []
 let g:vim_parinfer_globs = [ "*.el", "*.lisp", "*.scm" ]
 "}}}
 "{{{
-let g:coc_global_extensions = [ "coc-rls" ]
+let g:coc_global_extensions = [ "coc-rls", "coc-lists", "coc-json" ]
 "}}}
 "{{{ Arpeggio
 function! s:chords_setup()
@@ -276,11 +267,15 @@ function! s:chords_setup()
 	Arpeggio inoremap wq <C-\><C-O>:wq<CR>
 	Arpeggio inoremap fq <C-\><C-O>:q!<CR>
 	Arpeggio inoremap wr <C-\><C-O>:w<CR>
+	Arpeggio inoremap har <C-\><C-O>:call CocActionAsync("doHover")<CR>
 
 	Arpeggio noremap jk :close<CR>
 	Arpeggio noremap wq :wq<CR>
 	Arpeggio noremap fq :q!<CR>
 	Arpeggio noremap wr :w<CR>
+	Arpeggio noremap har :call CocActionAsync("doHover")<CR>
+	Arpeggio nmap gd <Plug>(coc-definition)
+	Arpeggio nmap ref <Plug>(coc-references)
 	"Arpeggio imap ag <Plug>(ncm2_expand_longest)
 endfunction
 
