@@ -18,3 +18,4 @@
 (package! meson-mode)
 (package! racer :disable t)
 (package! xclip)
+(package! vimrc-mode)
