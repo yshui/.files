@@ -74,7 +74,7 @@ call dein#add('leafgarland/typescript-vim')
 call dein#add('nhooyr/neoman.vim')
 call dein#add('junegunn/fzf', {'merged':0})
 call dein#add('junegunn/fzf.vim')
-call dein#add('kien/ctrlp.vim')
+"call dein#add('kien/ctrlp.vim')
 call dein#add('vim-scripts/Lucius')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes', {'depends' : ['vim-airline']})
@@ -96,6 +96,7 @@ call dein#add('arakashic/chromatica.nvim', {'merged': 0})
 "call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'make release'})
 call dein#add('yshui/tooltip.nvim')
 call dein#add('udalov/kotlin-vim')
+call dein#add('junegunn/fzf.vim')
 
 call dein#end()
 "call maktaba#plugin#Detect()
@@ -175,6 +176,7 @@ autocmd BufReadPost *
 set mouse=a
 syntax enable
 
+set noshowmode
 set hlsearch
 set backup
 set backupdir=$HOME/.vimf/backup,.
@@ -443,6 +445,8 @@ noremap  <buffer> <silent> <Down> gj
 noremap  <buffer> <silent> <Home> g<Home>
 noremap  <buffer> <silent> <End>  g<End>
 nnoremap <space> :
+inoremap <C-p> <C-\><C-O>:Files<CR>
+nnoremap <C-p> :Files<CR>
 "autocmd CursorHold *.c call s:lc_hover()
 "autocmd CursorMoved *.c call HideTooltip()
 "noremap <silent><c-t> :call <SID>lc_hover()<CR>
