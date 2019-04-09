@@ -209,14 +209,11 @@ set listchars=tab:>-,trail:-,extends:>
 set viewoptions-=options
 
 "Color Scheme
-let g:gardener_light_comments=1
-let g:gardener_blank=1
-let g:lucius_use_bold=1
 set background=dark
 if v:progname =~? "gvim"
 	colors lucius
 else
-	colorscheme gardener
+	colorscheme monokai
 endif
 
 let g:nvim_config_dir = $HOME."/.config/nvim"
@@ -260,7 +257,7 @@ let g:vim_parinfer_filetypes = []
 let g:vim_parinfer_globs = [ "*.el", "*.lisp", "*.scm" ]
 "}}}
 "{{{
-let g:coc_global_extensions = [ "coc-rls", "coc-lists", "coc-json" ]
+let g:coc_global_extensions = [ "coc-rls", "coc-lists", "coc-json", "coc-tsserver" ]
 "}}}
 "{{{ Arpeggio
 function! s:chords_setup()

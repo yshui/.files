@@ -38,7 +38,6 @@ func s:idle_callback(timer)
 endfunc
 
 func s:input_callback(type)
-	echom "input" . a:type
 	if s:idle_timer >= 0
 		call timer_stop(s:idle_timer)
 		let s:idle_time = 0
