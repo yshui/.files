@@ -72,7 +72,7 @@ source $ZSH/oh-my-zsh.sh
 source ~/.cargo/env
 
 fzf_base=/usr/share/doc/fzf
-[ -d "$fzf_base/completion.zsh" ] || fzf_base=/usr/share/fzf
+[ -d "$fzf_base" ] || fzf_base=/usr/share/fzf
 [ -e "$fzf_base/completion.zsh" ] && source $fzf_base/completion.zsh
 [ -e "$fzf_base/key-bindings.zsh" ] && source $fzf_base/key-bindings.zsh
 
