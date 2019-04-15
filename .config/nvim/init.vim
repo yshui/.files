@@ -32,6 +32,18 @@ function s:lc_hover()
 	endif
 endfunc
 
+function! Open_float()
+	if exists('*nvim_open_win')
+		let b = nvim_create_buf(v:false, v:true)
+		call nvim_buf_set_option(b, "buftype", "nofile")
+		let opts = {'row':10, 'col':110, 'anchor': 'NE', 'relative': 'win', 'height': 20, 'width': 60}
+		let w =  nvim_open_win(b, v:true, opts)
+		hi Floating guibg=#000000
+		call setwinvar(w, '&winhl', 'Normal:Floating')
+		call setwinvar(w, '&number', 0)
+	endif
+endfunction
+
 command DeinClear call s:dein_clear_unused()
 "}}}
 
@@ -118,6 +130,7 @@ endfunc
 "Experimenting with long press key map
 let g:press_timer = -1
 let g:repeat_count = -1
+"let g:fzf_layout = { 'window': 'call Open_float()' }
 
 func! s:long_press_j_cancel()
 	echomsg "canceled"
