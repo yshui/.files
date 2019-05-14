@@ -116,3 +116,12 @@ temporary/special buffers in `font-lock-comment-face'."
 (setq custom-file (concat (file-name-directory load-file-name) "custom.el"))
 ;(load custom-file)
 (ranger-override-dired-mode t)
+(setq reftex-default-bibliography '("~/bibliography/references.bib"))
+
+;; see org-ref for use of these variables
+(setq org-ref-bibliography-notes "~/bibliography/notes.org"
+      org-ref-default-bibliography '("~/bibliography/references.bib")
+      org-ref-pdf-directory "~/bibliography/bibtex-pdfs/")
+
+(add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
+(add-hook 'adoc-mode-hook 'visual-line-mode)

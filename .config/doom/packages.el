@@ -19,3 +19,8 @@
 (package! racer :disable t)
 (package! xclip)
 (package! vimrc-mode)
+(package! org-ref)
+(package! zig-mode)
+(package! go-mode)
+(package! ox-asciidoc)
+(package! adoc-mode)
