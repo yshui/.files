@@ -3,12 +3,6 @@
 
 (doom! :feature
        ;;debugger          ; FIXME stepping through code, to help you add bugs
-       eval              ; run code, run (also, repls)
-       (evil +everywhere); come to the dark side, we have cookies
-       file-templates    ; auto-snippets for empty files
-       (lookup           ; helps you navigate your code and documentation
-        +docsets)        ; ...or in Dash docsets locally
-       snippets          ; my elves. They type so I don't have to
        ;spellcheck        ; tasing you for misspelling mispelling
        ;syntax-checker    ; tasing you for every semicolon you forget
        ;workspaces        ; tab emulation, persistence & separate workspaces
@@ -25,7 +19,7 @@
        doom-dashboard    ; a nifty splash screen for Emacs
        ;;doom-modeline     ; a snazzy Atom-inspired mode-line
        ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       evil-goggles      ; display visual hints when editing in evil
+       ophints      ; display visual hints when editing in evil
        ;;fci               ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        ;modeline          ; snazzy, Atom-inspired modeline, plus API
@@ -37,12 +31,15 @@
         +defaults)       ; default popup rules
        ;;pretty-code       ; replace bits of code with pretty symbols
        ;;tabbar            ; FIXME an (incomplete) tab bar for Emacs
-       ;;unicode           ; extended unicode support for various languages
+       unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
 
        :editor
+       snippets          ; my elves. They type so I don't have to
+       file-templates    ; auto-snippets for empty files
+       (evil +everywhere); come to the dark side, we have cookies
        ;;(format +onsave)  ; automated prettiness
        ;;lispy             ; vim for lisp, for people who dont like vim
        multiple-cursors  ; editing in many places at once
@@ -59,29 +56,35 @@
        electric          ; smarter, keyword-based electric-indent
        ;;eshell            ; a consistent, cross-platform shell (WIP)
        ;hideshow          ; basic code-folding support
-       imenu             ; an imenu sidebar and searchable code index
+       ;imenu             ; an imenu sidebar and searchable code index
        ;;term              ; terminals in Emacs
        vc                ; version-control and Emacs, sitting in a tree
 
        :tools
+       eval              ; run code, run (also, repls)
+       (lookup           ; helps you navigate your code and documentation
+        +docsets)        ; ...or in Dash docsets locally
        flyspell
        flycheck
+       lsp
        ;;ansible
        ;;docker
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        ;;gist              ; interacting with github gists
-       ;;macos             ; MacOS-specific commands
-       ;;make              ; run make tasks from Emacs
+       macos             ; MacOS-specific commands
+       make              ; run make tasks from Emacs
        magit             ; a git porcelain for Emacs
        ;;password-store    ; password manager for nerds
-       ;;pdf               ; pdf enhancements
+       pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
        ;;terraform         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
        ;;wakatime
+
+       :term
        vterm
 
        :lang
@@ -117,7 +120,9 @@
         +babel           ; running code in org
         +capture         ; org-capture in and outside of Emacs
         +export          ; Exporting org to whatever you want
-        +present)        ; Emacs for presentations
+        +habit           ; Keep track of your habits
+        +present         ; Emacs for presentations
+        +protocol)       ; Support for org-protocol:// l
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
