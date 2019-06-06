@@ -208,6 +208,8 @@ set cpo-=<
 set wcm=<C-Z>
 set laststatus=2
 set clipboard=unnamedplus
+set secure
+set nomodeline
 map <F4> :emenu <C-Z>
 au BufRead,BufNewFile * let b:start_time=localtime()
 set completeopt=menuone
