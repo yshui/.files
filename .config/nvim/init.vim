@@ -266,6 +266,9 @@ let g:chromatica#highlight_feature_level = 0
 let g:chromatica#responsive_mode = 1
 let g:chromatica#enable_at_startup = 1
 "}}}
+"{{{EditorConfig
+let g:EditorConfig_preserve_formatoptions=1
+"}}}
 "{{{Parinfer
 "Disable Parinfer filetype commands by default
 let g:vim_parinfer_filetypes = []
