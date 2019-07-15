@@ -114,7 +114,7 @@ temporary/special buffers in `font-lock-comment-face'."
 (solaire-global-mode 1)
 
 (setq custom-file (concat (file-name-directory load-file-name) "custom.el"))
-;(load custom-file)
+(load custom-file)
 (ranger-override-dired-mode t)
 (setq reftex-default-bibliography '("~/bibliography/references.bib"))
 
