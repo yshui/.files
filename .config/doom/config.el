@@ -1,6 +1,6 @@
 ;;; config.el -*- lexical-binding: t; -*-
 (setq warning-minimum-level :error)
-(setq doom-font (font-spec :family "DeTerminus"))
+(setq doom-font (font-spec :family "Iosevka Term" :size 16))
 (setq confirm-kill-emacs nil)
 (def-package! evil-terminal-cursor-changer
   :commands (evil-terminal-cursor-changer-activate etcc-on)
