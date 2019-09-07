@@ -72,7 +72,7 @@ source $ZSH/oh-my-zsh.sh
 source ~/.cargo/env
 
 fzf_base=/usr/share/doc/fzf
-[ -d "$fzf_base" ] || fzf_base=/usr/share/fzf
+[ -d "$fzf_base/completion.zsh" ] || fzf_base=/usr/share/fzf
 [ -e "$fzf_base/completion.zsh" ] && source $fzf_base/completion.zsh
 [ -e "$fzf_base/key-bindings.zsh" ] && source $fzf_base/key-bindings.zsh
 
@@ -155,6 +155,14 @@ elif [ "$DISTRO" = "void" ]; then
 	alias xq="xbps-query"
 	alias qs="xq -Rs"
 	alias ql="xq -f"
+elif [ "$DISTRO" = "Gentoo" ]; then
+	alias sp="sudo emerge"
+	alias p="emerge"
+	alias u="sp --sync; sp -aNDuv @world"
+	alias i="sp -av"
+	alias qs="eix"
+	alias ql="equery f"
+	alias r="sp -C"
 fi
 
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -177,3 +185,18 @@ fi
 alias ec='emacsclient -a "" -nw'
 alias ecw='emacsclient -a "" -c'
 alias eck='emacsclient -e "(kill-emacs)"'
+
+backward-path-segment() {
+  local WORDCHARS='*?_[]~=&;!#$%^(){}`@-+|\,. '
+  zle backward-word
+}
+
+backward-kill-path-segment() {
+  local WORDCHARS='*?_[]~=&;!#$%^(){}`@-+|\,. '
+  zle backward-kill-word
+}
+
+zle -N backward-path-segment
+zle -N backward-kill-path-segment
+
+bindkey '\ew' backward-kill-path-segment
