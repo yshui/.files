@@ -3,12 +3,19 @@ local home = di.os.env.HOME
 di.os.env.GTK_IM_MODULE = "fcitx"
 di.os.env.QT_IM_MODULE = "fcitx"
 di.os.env.QT_SCALE_FACTOR = "1"
+di.os.env.QT_AUTO_SCREEN_SCALE_FACTOR = "1"
+di.os.env.QT_FONT_DPI = "192"
 di.os.env.MPD_HOST = home.."/.mpd/socket"
 -- put /home/user/.local/bin into path
 di.os.env.PATH=home.."/.local/bin:"..di.os.env.PATH
+-- put /home/user/.cargo/bin into path
+di.os.env.PATH=home.."/.cargo/bin:"..di.os.env.PATH
 di.os.env.XMODIFIERS = "@im=fcitx"
 
 di.os.env.MOZ_USE_XINPUT2 = "1"
+
+-- Make ubsan stricter
+di.os.env.UBSAN_OPTIONS="halt_on_error=1:print_stacktrace=1"
 
 -- get the config directory, used for putting the log file
 if di.os.env["XDG_CONFIG_HOME"] ~= nil then
@@ -27,6 +34,7 @@ di.log.log_level = "info"
 di.log.log_target = di.log.file_target(cfg_dir.."/log.txt", false)
 -- connect to xorg
 local xc = di.xorg.connect()
+
 function get_output(name)
     local os = xc.randr.outputs
     for _, v in pairs(os) do
@@ -80,7 +88,10 @@ xi.on("new-device", function(dev)
     di.log("info", string.format("new device %s %s %s %d", dev.type, dev.use, dev.name, dev.id))
     -- apply settings to new device
     apply_xi_settings(dev)
+    -- set keymap
+    xc.keymap = { layout = "us", options = "ctrl:nocaps" }
 end)
+xc.keymap = { layout = "us", options = "ctrl:nocaps" }
 
 
 -- apply settings to existing devices
@@ -113,7 +124,7 @@ if not restarted then
         di.spawn.run({"mpd"}, true)
         di.spawn.run({"syncthing", "-no-browser"}, true)
         di.spawn.run({"syncthing-inotify"}, true)
-        di.spawn.run({"jack_control", "start"}, true)
+        --di.spawn.run({"jack_control", "start"}, true)
         di.spawn.run({"emacs", "--daemon"}, true)
     end
     -- test if a dbus daemon is already running and reachable
