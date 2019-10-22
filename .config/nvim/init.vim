@@ -275,7 +275,7 @@ let g:vim_parinfer_filetypes = []
 let g:vim_parinfer_globs = [ "*.el", "*.lisp", "*.scm" ]
 "}}}
 "{{{
-let g:coc_global_extensions = [ "coc-rls", "coc-lists", "coc-json", "coc-tsserver" ]
+let g:coc_global_extensions = [ "coc-rls", "coc-lists", "coc-json", "coc-tsserver", "coc-syntax" ]
 "}}}
 "{{{ Arpeggio
 function! s:chords_setup()
