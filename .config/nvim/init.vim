@@ -106,7 +106,7 @@ call dein#add('editorconfig/editorconfig-vim')
 call dein#add('arakashic/chromatica.nvim', {'merged': 0})
 "call dein#add('mhartington/nvim-typescript', {'depends' : ['deoplete.nvim']})
 "call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': 'make release'})
-call dein#add('yshui/tooltip.nvim')
+"call dein#add('yshui/tooltip.nvim')
 call dein#add('udalov/kotlin-vim')
 call dein#add('junegunn/fzf.vim')
 
