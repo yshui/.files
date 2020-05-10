@@ -129,3 +129,18 @@ temporary/special buffers in `font-lock-comment-face'."
 (add-hook 'adoc-mode-hook 'visual-line-mode)
 (global-emojify-mode)
 (global-save-place-mode)
+
+(defun notmuch-draft--mark-sent ()
+    "Tag the last saved draft sent."
+    (when notmuch-draft-id
+          (notmuch-tag notmuch-draft-id '("+sent"))))
+
+(after! notmuch
+ (setq notmuch-saved-searches '((:name "inbox" :query "tag:inbox" :search-type 'tree)
+                                (:name "important" :query "tag:important and tag:unread" :search-type 'tree)
+                                (:name "unread" :query "tag:inbox and tag:unread")))
+ (remove-hook 'message-send-hook 'notmuch-draft--mark-deleted)
+ (add-hook 'message-send-hook 'notmuch-draft--mark-sent))
+
+(setq-default message-sendmail-envelope-from 'header)
+(setq mail-host-address "yshui.github.io")
