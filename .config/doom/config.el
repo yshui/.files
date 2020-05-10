@@ -127,4 +127,5 @@ temporary/special buffers in `font-lock-comment-face'."
 
 (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
 (add-hook 'adoc-mode-hook 'visual-line-mode)
+(global-emojify-mode)
 (global-save-place-mode)
