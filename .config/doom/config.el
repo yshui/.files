@@ -2,7 +2,7 @@
 (setq warning-minimum-level :error)
 (setq doom-font (font-spec :family "Iosevka Term" :size 16))
 (setq confirm-kill-emacs nil)
-(def-package! evil-terminal-cursor-changer
+(use-package! evil-terminal-cursor-changer
   :commands (evil-terminal-cursor-changer-activate etcc-on)
   :config
   (setq evil-motion-state-cursor 'box)  ; █
@@ -53,27 +53,27 @@ temporary/special buffers in `font-lock-comment-face'."
                                'ivy-project-file-buffer)
                               (t 'ivy-file-buffer))))))
 (after! ivy-rich
-  (let* ((plist (plist-get ivy-rich--display-transformers-list 'ivy-switch-buffer))
+  (let* ((plist (plist-get ivy-rich-display-transformers-list 'ivy-switch-buffer))
          (colplist (plist-get plist :columns))
          (switch-buffer-alist (assq '+ivy-rich-buffer-name colplist)))
     (when switch-buffer-alist
       (setcar switch-buffer-alist #'my/ivy-rich-buffer-name))))
 
-(def-package! company-lsp
+(use-package! company-lsp
   :commands company-lsp
   :config (push 'company-lsp company-backends)
   (setq company-lsp-enable-snippet t))
-(def-package! ccls)
-(def-package! lsp-ui-flycheck)
-(def-package! lsp-mode
+(use-package! ccls)
+(use-package! lsp-ui-flycheck)
+(use-package! lsp-mode
   :commands (lsp lsp-register-client)
   :hook ((c-mode c++-mode rust-mode) . lsp)
   :config (setq lsp-enable-snippet t)
   (setq lsp-prefer-flymake nil))
-(def-package! lsp-ui)
+(use-package! lsp-ui)
 (set-company-backend! :derived 'prog-mode '(company-files))
 (set-company-backend! 'lsp-mode '(company-lsp))
-(def-package! flycheck-clang-tidy
+(use-package! flycheck-clang-tidy
   :after flycheck
   :load-path (lambda () (file-name-directory load-file-name))
   :commands flycheck-clang-tidy-setup
@@ -83,9 +83,9 @@ temporary/special buffers in `font-lock-comment-face'."
 
 ; Load theme after window-setup to make sure customize-set-variable is called
 (add-hook 'after-init-hook (lambda () (load-theme 'my-molokai)))
-(def-package! elec-pair
+(use-package! elec-pair
   :hook ((c-mode c++-mode rust-mode) . electric-pair-mode))
-(def-package! telephone-line
+(use-package! telephone-line
   :config (telephone-line-mode 1))
 
 (define-minor-mode fontify-line-limit-mode
