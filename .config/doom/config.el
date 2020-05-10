@@ -96,6 +96,8 @@ temporary/special buffers in `font-lock-comment-face'."
 
 (define-globalized-minor-mode global-fontify-line-limit-mode
   fontify-line-limit-mode (lambda () (fontify-line-limit-mode t)))
+(define-globalized-minor-mode global-save-place-mode
+  save-place-mode save-place-mode)
 
 (setq ccls-args '("--log-file=/tmp/ccls.log"))
 (global-fontify-line-limit-mode 1)
@@ -125,3 +127,4 @@ temporary/special buffers in `font-lock-comment-face'."
 
 (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
 (add-hook 'adoc-mode-hook 'visual-line-mode)
+(global-save-place-mode)
