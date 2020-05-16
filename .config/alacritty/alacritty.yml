@@ -375,7 +375,6 @@ key_bindings:
   - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
   - { key: Subtract, mods: Control, action: DecreaseFontSize             }
   - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
-  - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
   - { key: Up,                      chars: "\x1bOA",   mode: AppCursor   }
   - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor  }
   - { key: Up,       mods: Alt,     chars: "\x1b[1;3A"                   }
