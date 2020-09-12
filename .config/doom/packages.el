@@ -24,3 +24,4 @@
 (package! go-mode)
 (package! ox-asciidoc)
 (package! adoc-mode)
+(package! emojify)

@@ -143,4 +143,5 @@ temporary/special buffers in `font-lock-comment-face'."
  (add-hook 'message-send-hook 'notmuch-draft--mark-sent))
 
 (setq-default message-sendmail-envelope-from 'header)
-(setq mail-host-address "yshui.github.io")
+(setq-default mm-sign-option 'guided)
+(setq-default mail-host-address "m5Zedd9JOGzJrf0")
