@@ -83,7 +83,7 @@ call dein#add('Matt-Deacalion/vim-systemd-syntax')
 call dein#add('neomake/neomake')
 "call dein#add('idanarye/vim-dutyl')
 call dein#add('leafgarland/typescript-vim')
-call dein#add('nhooyr/neoman.vim')
+"call dein#add('nhooyr/neoman.vim')
 call dein#add('junegunn/fzf', {'merged':0})
 call dein#add('junegunn/fzf.vim')
 "call dein#add('kien/ctrlp.vim')
@@ -474,8 +474,6 @@ nnoremap <C-p> :Files<CR>
 "autocmd CursorMoved *.c call HideTooltip()
 "noremap <silent><c-t> :call <SID>lc_hover()<CR>
 
-cnoreabbrev Man Snman
-
 inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 "vmap <LeftRelease> "*ygv
 "}}}
@@ -514,5 +512,4 @@ set listchars=tab:>-,trail:-,extends:>
 
 nnoremap ; :
 
-cnoreabbrev Man Snman
 " vim: foldmethod=marker
