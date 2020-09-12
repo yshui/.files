@@ -86,6 +86,7 @@ call dein#add('leafgarland/typescript-vim')
 "call dein#add('nhooyr/neoman.vim')
 call dein#add('junegunn/fzf', {'merged':0})
 call dein#add('junegunn/fzf.vim')
+call dein#add('reasonml-editor/vim-reason-plus')
 "call dein#add('kien/ctrlp.vim')
 call dein#add('vim-scripts/Lucius')
 call dein#add('vim-airline/vim-airline')
@@ -182,6 +183,7 @@ autocmd VimSuspend * call s:tmux_reset_title()
 set title
 set titlestring=%f\ -\ NVIM
 
+set guifont=Iosevka:h12
 "Return to the last edit position
 autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && expand("%:t") != "COMMIT_EDITMSG" |
@@ -276,7 +278,7 @@ let g:vim_parinfer_filetypes = []
 let g:vim_parinfer_globs = [ "*.el", "*.lisp", "*.scm" ]
 "}}}
 "{{{
-let g:coc_global_extensions = [ "coc-rls", "coc-lists", "coc-json", "coc-tsserver", "coc-syntax" ]
+let g:coc_global_extensions = [ "coc-rust-analyzer", "coc-lists", "coc-json", "coc-tsserver", "coc-syntax", "coc-snippets" ]
 "}}}
 "{{{ Arpeggio
 function! s:chords_setup()
