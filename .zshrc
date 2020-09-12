@@ -132,6 +132,10 @@ function my_preexec {
   title '$CMD' '%100>...>$LINE%<<'
 }
 
+function make_targets {
+  make -qp "$@" | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
+}
+
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd my_precmd
 add-zsh-hook preexec my_preexec
@@ -165,6 +169,9 @@ elif [ "$DISTRO" = "Gentoo" ]; then
 	alias r="sp -C"
 fi
 
+alias sudo="TERM=tmux sudo"
+alias ssh="TERM=tmux ssh"
+alias ls="exa --time-style=iso"
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
 export LESS_TERMCAP_me=$'\E[0m'
@@ -200,3 +207,5 @@ zle -N backward-path-segment
 zle -N backward-kill-path-segment
 
 bindkey '\ew' backward-kill-path-segment
+
+eval "$(fasd --init auto)"
