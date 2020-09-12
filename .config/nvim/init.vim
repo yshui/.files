@@ -64,7 +64,7 @@ call dein#add('neoclide/coc.nvim', { 'build': 'yarn install'})
 "call dein#add('ncm2/ncm2-tmux', {'depends' : ['ncm2/ncm2']})
 "call dein#add('ncm2/ncm2-vim', {'depends' : ['ncm2/ncm2']})
 "call dein#add('ncm2/ncm2-ultisnips', {'depends' : ['ncm2/ncm2']})
-call dein#add('SirVer/ultisnips')
+"call dein#add('SirVer/ultisnips')
 call dein#add('LnL7/vim-nix')
 "call dein#add('Shougo/neosnippet.vim')
 "call dein#add('Shougo/neosnippet-snippets')
@@ -502,9 +502,6 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <F7> <C-\><C-O>:Neomake<CR>
 nnoremap <F7> :Neomake<CR>
 
-smap <expr><TAB> neosnippet#jumpable() ?
-\ "\<Plug>(neosnippet_jump)"
-\: "\<TAB>"
 "}}}
 "
 "{{{commands
