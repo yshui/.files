@@ -285,6 +285,10 @@ function! s:chords_setup()
 	Arpeggio inoremap fq <C-\><C-O>:q!<CR>
 	Arpeggio inoremap wr <C-\><C-O>:w<CR>
 	Arpeggio inoremap har <C-\><C-O>:call CocActionAsync("doHover")<CR>
+	Arpeggio imap af <Plug>(coc-fix-current)
+	Arpeggio nmap ac v<Plug>(coc-codeaction-selected)
+	Arpeggio imap ac <C-\><C-O>v<Plug>(coc-codeaction-selected)
+	Arpeggio imap rn <Plug>(coc-rename)
 
 	Arpeggio noremap jk :close<CR>
 	Arpeggio noremap wq :wq<CR>
@@ -293,6 +297,10 @@ function! s:chords_setup()
 	Arpeggio noremap har :call CocActionAsync("doHover")<CR>
 	Arpeggio nmap gd <Plug>(coc-definition)
 	Arpeggio nmap ref <Plug>(coc-references)
+	Arpeggio nmap fm <Plug>(coc-format-selected)
+	Arpeggio xmap fm <Plug>(coc-format-selected)
+	Arpeggio nmap af <Plug>(coc-fix-current)
+	Arpeggio nmap rn <Plug>(coc-rename)
 	"Arpeggio imap ag <Plug>(ncm2_expand_longest)
 endfunction
 
@@ -488,8 +496,7 @@ imap <expr><CR>  "\<CR>\<Plug>AutoPairsReturn"
 "inoremap <expr><BS>
 "\ deoplete#mappings#smart_close_popup()."\<C-h>"
 
-imap <expr><TAB> pumvisible() ? "\<C-n>" :
-\ <SID>is_whitespace() ? "\<TAB>" : "\<C-n>"
+imap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>is_whitespace() ? "\<TAB>" : coc#refresh()
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <F7> <C-\><C-O>:Neomake<CR>
