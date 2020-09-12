@@ -2,15 +2,25 @@
 local home = di.os.env.HOME
 di.os.env.GTK_IM_MODULE = "fcitx"
 di.os.env.QT_IM_MODULE = "fcitx"
-di.os.env.QT_SCALE_FACTOR = "1"
+-- di.os.env.QT_SCALE_FACTOR = "1"
 di.os.env.QT_AUTO_SCREEN_SCALE_FACTOR = "1"
-di.os.env.QT_FONT_DPI = "192"
+di.os.env.QT_SCREEN_SCALE_FACTORS = "3;1.5"
+-- di.os.env.QT_USE_PHYSICAL_DPI="0"
+-- di.os.env.QT_FONT_DPI = "192"
 di.os.env.MPD_HOST = home.."/.mpd/socket"
 -- put /home/user/.local/bin into path
 di.os.env.PATH=home.."/.local/bin:"..di.os.env.PATH
 -- put /home/user/.cargo/bin into path
 di.os.env.PATH=home.."/.cargo/bin:"..di.os.env.PATH
 di.os.env.XMODIFIERS = "@im=fcitx"
+di.os.env.WINEFSYNC = "1"
+di.os.env.ENABLE_DEVICE_CHOOSER_LAYER="1"
+di.os.env.VULKAN_DEVICE_MATCH="ACO"
+
+di.os.env.RADV_PERFTEST = "cswave32,gewave32"
+
+-- pretend to be mate so xdg-open would delegate to "gio open"
+di.os.env.XDG_CURRENT_DESKTOP = "MATE"
 
 di.os.env.MOZ_USE_XINPUT2 = "1"
 
@@ -69,10 +79,10 @@ function apply_xi_settings(dev)
     end
 
     if dev.use == "pointer" then
-        if string.find(dev.name, "ELECOM") or string.find(dev.name, "Logitech") then
+        if string.find(dev.name, "ELECOM") or string.find(dev.name, "Logitech") or string.find(dev.name, "MX Ergo") then
             p["libinput Scroll Method Enabled"] = {0, 0, 1}
             if string.find(dev.name, "ELECOM") then
-                p["libinput Button Scrolling Button"] = {8}
+                p["libinput Button Scrolling Button"] = {10}
             else
                 p["libinput Button Scrolling Button"] = {9}
             end
@@ -112,12 +122,14 @@ local function replace_awesome()
 end
 
 
-xc.xrdb = "Xft.dpi:\t144\n"
+xc.xrdb = [[Xft.dpi: 144
+rofi.terminal: alacritty
+]]
 if not restarted then
     local function auto_start()
         replace_awesome()
 
-        di.spawn.run({"compton"}, true)
+        di.spawn.run({"picom", "--experimental-backends"}, true)
         di.spawn.run({"fcitx"}, true)
         --di.spawn.run({"transmission-daemon"}, true)
         di.spawn.run({"synergys", "--name", "pc"}, true)
@@ -158,6 +170,12 @@ xc.key.new({"mod4", "shift"}, "e", false).on("pressed", function()
     di.terminate()
 end)
 
+xc.key.new({"mod4", "shift"}, "l", false).on("pressed", function()
+    di.spawn.run({"i3lock"}, true)
+    kpass = di.dbus.session_bus.get("org.freedesktop.secrets", "/keepassxc")
+    kpass["org.keepassxc.MainWindow.lockAllDatabases"]()
+end)
+
 xc.key.new({"mod4"}, "d", false).on("pressed", function()
     di.spawn.run({"rofi", "-show", "run"}, true)
 end)
@@ -171,5 +189,21 @@ xc.key.new({"mod4"}, "x", false).on("pressed", function()
 end)
 
 xc.key.new({"mod4"}, "c", false).on("pressed", function()
+    di.spawn.run({"mpc", "next"}, true)
+end)
+
+xc.key.new({}, "XF86AudioPlay", false).on("pressed", function()
+    di.spawn.run({"mpc", "toggle"}, true)
+end)
+
+xc.key.new({}, "XF86AudioPause", false).on("pressed", function()
+    di.spawn.run({"mpc", "pause"}, true)
+end)
+
+xc.key.new({}, "XF86AudioPrev", false).on("pressed", function()
+    di.spawn.run({"mpc", "prev"}, true)
+end)
+
+xc.key.new({}, "XF86AudioNext", false).on("pressed", function()
     di.spawn.run({"mpc", "next"}, true)
 end)
