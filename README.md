@@ -3,9 +3,12 @@
 Uhm... So here is my .files.
 
 ## Changes
+2019 Jan:
+* Started using [doom](https://github.com/hlissner/doom-emacs). Not as a text editor, mainly for magit
+
 2018 Jul:
 
-* systemd services are gone now. Intention is to use [deai](https://github.com/yshui/deai) for everything for now on (it still has some missing features, dogfooding should push me to finish them)
+* systemd services are gone now. Intention is to use [deai](https://github.com/yshui/deai) for everything from now on (it still has some missing features, dogfooding should push me to finish them)
 * Am trying out [kakoune](https://github.com/mawww/kakoune)
 
 2017 Apr:
