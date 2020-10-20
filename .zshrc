@@ -209,3 +209,5 @@ zle -N backward-kill-path-segment
 bindkey '\ew' backward-kill-path-segment
 
 eval "$(fasd --init auto)"
+
+export GPG_TTY=$(tty)
