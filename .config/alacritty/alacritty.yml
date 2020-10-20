@@ -377,5 +377,4 @@ key_bindings:
   - { key: Up,       mods: Control, chars: "\x1b[1;5A"                   }
   - { key: Up,       mods: Shift,   chars: "\x1b[1;2A"                   }
   - { key: V,        mods: Control|Shift,    action: Paste               }
-  - { key: W,        mods: Command, action: Quit                         }
 
