@@ -25,13 +25,6 @@ function! s:tmux_reset_title() "{{{
 	call system("tmux set-window-option automatic-rename on")
 endfunc "}}}
 
-function s:lc_hover()
-	let r = LanguageClient_textDocument_hoverSync()
-	if type(r) != 7
-		call ShowTooltip(screenrow(), screencol(), r["contents"][0]["value"])
-	endif
-endfunc
-
 function! Open_float()
 	if exists('*nvim_open_win')
 		let b = nvim_create_buf(v:false, v:true)
@@ -80,12 +73,9 @@ call dein#add('jiangmiao/auto-pairs')
 call dein#add('rust-lang/rust.vim')
 "call dein#add('Raimondi/delimitMate')
 call dein#add('Matt-Deacalion/vim-systemd-syntax')
-call dein#add('neomake/neomake')
-"call dein#add('idanarye/vim-dutyl')
 call dein#add('leafgarland/typescript-vim')
 "call dein#add('nhooyr/neoman.vim')
 call dein#add('junegunn/fzf', {'merged':0})
-call dein#add('junegunn/fzf.vim')
 call dein#add('reasonml-editor/vim-reason-plus')
 "call dein#add('kien/ctrlp.vim')
 call dein#add('vim-scripts/Lucius')
@@ -111,6 +101,9 @@ call dein#add('editorconfig/editorconfig-vim')
 call dein#add('udalov/kotlin-vim')
 call dein#add('junegunn/fzf.vim')
 call dein#add('jackguo380/vim-lsp-cxx-highlight')
+call dein#add('ziglang/zig.vim')
+call dein#add('wsdjeg/dein-ui.vim')
+call dein#add('liuchengxu/vim-which-key', {'lazy': 1, 'on_cmd': ['WhichKey', 'WhichKey!']})
 
 call dein#end()
 "call maktaba#plugin#Detect()
@@ -217,6 +210,7 @@ map <F4> :emenu <C-Z>
 au BufRead,BufNewFile * let b:start_time=localtime()
 set completeopt=menuone
 set shada=!,'150,<100,/50,:50,r/tmp,s256
+set timeoutlen=300
 "au FileType c,cpp,vim let w:mcc=matchadd('ColorColumn', '\%81v', 100)
 
 set smartindent
@@ -239,6 +233,10 @@ if $XDG_CONFIG_DIR != ""
 	let g:nvim_config_dir = $XDG_CONFIG_DIR."/nvim"
 endif
 
+if $COLORTERM == "truecolor"
+	set termguicolors
+endif
+
 
 filetype plugin on
 filetype plugin indent on
@@ -248,16 +246,18 @@ autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent! loadview
 "}}}
 
+"{{{ General
+let g:mapleader = "\<SPACE>"
+let g:maplocalleader = ","
+
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+"}}}
+
 "{{{ Plugin configurations
 let g:tooltip_border_width=10
 let g:tooltip_background="white"
 let g:tooltip_foreground="black"
-"{{{ ultisnips
-let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
-"}}}
 "{{{ Clang paths
 
 let g:__clang_path = '/usr/lib/libclang.so'
@@ -277,8 +277,10 @@ let g:EditorConfig_preserve_formatoptions=1
 let g:vim_parinfer_filetypes = []
 let g:vim_parinfer_globs = [ "*.el", "*.lisp", "*.scm" ]
 "}}}
-"{{{
-let g:coc_global_extensions = [ "coc-rust-analyzer", "coc-lists", "coc-json", "coc-tsserver", "coc-syntax", "coc-snippets" ]
+"{{{ Coc
+let g:coc_global_extensions = [ "coc-rust-analyzer", "coc-lists", "coc-json", "coc-tsserver", "coc-syntax", "coc-snippets", "coc-clangd" ]
+let g:coc_snippet_next = '<C-l>'
+let g:coc_snippet_prev = '<C-h>'
 "}}}
 "{{{ Arpeggio
 function! s:chords_setup()
@@ -288,10 +290,14 @@ function! s:chords_setup()
 	Arpeggio inoremap fq <C-\><C-O>:q!<CR>
 	Arpeggio inoremap wr <C-\><C-O>:w<CR>
 	Arpeggio inoremap har <C-\><C-O>:call CocActionAsync("doHover")<CR>
-	Arpeggio imap af <Plug>(coc-fix-current)
-	Arpeggio nmap ac v<Plug>(coc-codeaction-selected)
-	Arpeggio imap ac <C-\><C-O>v<Plug>(coc-codeaction-selected)
-	Arpeggio imap rn <Plug>(coc-rename)
+	Arpeggio imap af <C-\><C-O><Plug>(coc-fix-current)
+	Arpeggio nmap ac0 v<Plug>(coc-codeaction-selected)
+	Arpeggio imap ac0 <C-\><C-O>v<Plug>(coc-codeaction-selected)
+
+	Arpeggio imap eo0 <C-\><C-O><Plug>(coc-diagnostic-prev)
+	Arpeggio imap ei0 <C-\><C-O><Plug>(coc-diagnostic-next)
+	Arpeggio nmap eo0 <Plug>(coc-diagnostic-prev)
+	Arpeggio nmap ei0 <Plug>(coc-diagnostic-next)
 
 	Arpeggio noremap jk :close<CR>
 	Arpeggio noremap wq :wq<CR>
@@ -309,54 +315,12 @@ endfunction
 
 autocmd VimEnter * call s:chords_setup()
 "}}}
-"{{{ ncm2
-"au BufEnter * call ncm2#enable_for_buffer()
-"au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-"au User Ncm2PopupClose set completeopt=menuone
-"}}}
-"{{{ LanguageClient
-let g:LanguageClient_serverCommands = {
-    \ 'c': ['ccls', '-log-file', '/tmp/a'],
-    \ 'cpp': ['ccls', '-log-file', '/tmp/a'],
-    \ 'rust': ['rls'],
-    \ 'typescript': [$HOME.'/node_modules/.bin/typescript-language-server', '--stdio'],
-\ }
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_settingsPath = g:nvim_config_dir.'/settings.json'
-let g:LanguageClient_loadSettings = 1
-let g:LanguageClient_hasSnippetSupport = 1
-"}}}
 
 "{{{ AutoPairs/delimitMate
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_jump_expansion = 1
 let g:AutoPairsMapCR = 0
-"}}}
-
-"{{{ deoplete.vim
-let g:deoplete#enable_at_startup = 1
-
-let g:deoplete#enable_smart_case = 1
-
-"let g:clang2_placeholder_prev = '<s-c-k>'
-"let g:clang2_placeholder_next = '<c-k>'
-
-"let g:deoplete#sources#d#dcd_client_binary = "dcd-client"
-"let g:deoplete#sources#d#dcd_server_binary = "dcd-server"
-
-let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
-let g:deoplete#omni#input_patterns.d = [
-	\'\.\w*',
-	\'\w*\('
-\]
-
-let g:deoplete#omni#functions = get(g:,'deoplete#omni#functions',{})
-"}}}
-
-"{{{ dutyl
-let g:dutyl_neverAddClosingParen=1
-let g:dutyl_stdImportPaths=['/usr/include/dlang/dmd']
 "}}}
 
 "{{{ airline
@@ -368,20 +332,9 @@ let g:airline_theme = "wombat"
 let g:clang_format#detect_style_file = 1
 "}}}
 
-"{{{ neomake
-let g:neomake_error_sign = {
-    \ 'text': 'E>',
-    \ 'texthl': 'YcmErrorSection',
-    \ }
-let g:neomake_warning_sign = {
-    \ 'text': 'W>',
-    \ 'texthl': 'YcmWarningSection',
-    \ }
-"}}}
-
 "{{{ SudoEdit
-let g:sudoAuth = "sudo"
-let g:sudo_no_gui = 0
+let g:sudo_askpass='/usr/lib/seahorse/ssh-askpass'
+let g:sudoDebug=1
 "}}}
 
 "{{{ syntastic
@@ -395,35 +348,6 @@ let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_CompileRule_pdf='xelatex --shell-escape --interaction=nonstopmode $*'
 let g:tex_flavor='latex'
 "}}}
-"{{{ Neomake
-let g:neomake_c_gccw_maker = {
-   \ 'exe': $HOME."/.config/nvim/cdb_wrapper",
-   \ 'args': ['gcc', '-fsyntax-only', '-Wall', '-Wextra'],
-   \ 'errorformat':
-      \ '%-G%f:%s:,' .
-      \ '%f:%l:%c: %trror: %m,' .
-      \ '%f:%l:%c: %tarning: %m,' .
-      \ '%f:%l:%c: %m,'.
-      \ '%f:%l: %trror: %m,'.
-      \ '%f:%l: %tarning: %m,'.
-      \ '%f:%l: %m',
-\ }
-let g:neomake_c_clangw_maker = {
-   \ 'exe': $HOME."/.config/nvim/cdb_wrapper",
-   \ 'args': ['clang', '-fsyntax-only', '-Wall', '-Wextra'],
-   \ 'errorformat':
-      \ '%-G%f:%s:,' .
-      \ '%f:%l:%c: %trror: %m,' .
-      \ '%f:%l:%c: %tarning: %m,' .
-      \ '%f:%l:%c: %m,'.
-      \ '%f:%l: %trror: %m,'.
-      \ '%f:%l: %tarning: %m,'.
-      \ '%f:%l: %m',
-\ }
-let g:neomake_c_enabled_makers = []
-let g:neomake_cpp_enabled_makers = []
-let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-fsanitize=undefined","-g"]
-"}}}
 "{{{ emmet
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
@@ -432,16 +356,10 @@ autocmd FileType html,css EmmetInstall
 
 "{{{ FileType configurations
 
-function! s:chords_c()
-	Arpeggio inoremap rf <C-\><C-O>:call rtags#FindRefs()<CR><ESC>
-	Arpeggio inoremap rj <C-\><C-O>:call rtags#JumpTo(g:V_SPLIT)<CR>
-	Arpeggio noremap rf :call rtags#FindRefs()<CR>
-	Arpeggio noremap rj :call rtags#JumpTo(g:V_SPLIT)<CR>
-endfunction
-
-autocmd FileType c,cpp call s:chords_c()
+autocmd Filetype c,cpp set comments^=:///
 autocmd FileType python set shiftwidth=4
 autocmd FileType python set nosmartindent
+autocmd FileType cpp set nosmartindent preserveindent
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
@@ -470,43 +388,36 @@ noremap  <buffer> <silent> <Up>   gk
 noremap  <buffer> <silent> <Down> gj
 noremap  <buffer> <silent> <Home> g<Home>
 noremap  <buffer> <silent> <End>  g<End>
-nnoremap <space> :
 inoremap <C-p> <C-\><C-O>:Files<CR>
 nnoremap <C-p> :Files<CR>
-"autocmd CursorHold *.c call s:lc_hover()
-"autocmd CursorMoved *.c call HideTooltip()
-"noremap <silent><c-t> :call <SID>lc_hover()<CR>
 
 inoremap <F6> <c-g>u<esc>:call zencoding#expandAbbr(0)<cr>a
 "vmap <LeftRelease> "*ygv
 "}}}
 
-"{{{ ncm2 mappings
-
-"imap <c-k> <Plug>(ncm2_expand_longest)
-
-"inoremap <expr> <Plug>(ncm2_expand_longest) Ncm2ExpandLongest()
-"}}}
 
 "{{{ completion related mappings
 imap <expr><CR>  "\<CR>\<Plug>AutoPairsReturn"
-
-"inoremap <expr><C-h>
-"\ deoplete#mappings#smart_close_popup()."\<C-h>"
-
-"inoremap <expr><BS>
-"\ deoplete#mappings#smart_close_popup()."\<C-h>"
 
 imap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>is_whitespace() ? "\<TAB>" : coc#refresh()
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <F7> <C-\><C-O>:Neomake<CR>
 nnoremap <F7> :Neomake<CR>
-
 "}}}
-"
+
+"{{{
+nnoremap <leader>lf <C-\><C-O>:call CocAction("format")<CR>
+"}}}
+
 "{{{commands
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+"}}}
+
+"{{{ Terminal
+tnoremap <Esc><Esc> <C-\><C-n>
+tnoremap <Esc>vs <C-\><C-n>:vsplit \| term<CR>
+autocmd TermOpen * setlocal timeoutlen=1000
 "}}}
 
 "List Char
