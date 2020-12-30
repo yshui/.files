@@ -4,6 +4,7 @@
 
 !.config
 !.config/nvim
+/.config/nvim/dein
 !.config/awesome
 
 !.emacs.d
