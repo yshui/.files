@@ -10,3 +10,6 @@
 [submodule ".emacs.d"]
 	path = .emacs.d
 	url = https://github.com/hlissner/doom-emacs
+[submodule ".config/prezto"]
+	path = .config/prezto
+	url = https://github.com/sorin-ionescu/prezto.git
