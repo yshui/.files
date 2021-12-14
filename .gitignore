@@ -5,7 +5,11 @@
 !.config
 !.config/nvim
 /.config/nvim/dein
+!/.config/mpv
+/.config/mpv/watch_later
 !.config/awesome
+!.zprezto-contrib
+!.zpreztorc
 
 !.emacs.d
 
