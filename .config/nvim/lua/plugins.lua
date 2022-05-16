@@ -4,7 +4,17 @@ return require('packer').startup(function()
 
 use 'neovim/nvim-lspconfig'
 use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-    require 'nvim-treesitter.configs'.setup {ensure_installed = 'maintained', highlight = {enable = true}}
+    require 'nvim-treesitter.configs'.setup {
+        ensure_installed = {
+            'bash', 'beancount', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp',
+            'comment', 'css', 'cuda', 'd', 'dot', 'dockerfile', 'fish', 'glsl',
+            'help', 'html', 'http', 'javascript', 'json', 'json5', 'jsonc',
+            'kotlin', 'latex', 'ledger', 'llvm', 'lua', 'make', 'markdown',
+            'ninja', 'nix', 'ocaml', 'org', 'python', 'rust', 'regex', 'rst',
+            'toml', 'tsx', 'typescript', 'vim', 'yaml', 'zig'
+        },
+        highlight = {enable = true}
+    }
 end}
 use { 'wbthomason/packer.nvim', branch = "master" }
 use 'bhurlow/vim-parinfer'
