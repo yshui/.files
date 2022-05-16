@@ -1,4 +1,5 @@
 require'pl'
+require'plugins'
 require'lspsettings'
 
 -- {{{ lspsaga
@@ -98,8 +99,6 @@ if os.getenv('COLORTERM') == "truecolor" then
 end
 
 -- }}}
-
-require'plugins'
 
 -- }}}
 
