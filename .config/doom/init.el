@@ -74,7 +74,7 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        ;;gist              ; interacting with github gists
-       macos             ; MacOS-specific commands
+       ;;macos             ; MacOS-specific commands
        make              ; run make tasks from Emacs
        magit             ; a git porcelain for Emacs
        ;;password-store    ; password manager for nerds
@@ -91,7 +91,7 @@
 
        :lang
        ;;assembly          ; assembly for fun or debugging
-       (cc +rtags); C/C++/Obj-C madness
+       (cc -rtags); C/C++/Obj-C madness
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
