@@ -15,9 +15,11 @@ di.os.env.PATH=home.."/.cargo/bin:"..di.os.env.PATH
 di.os.env.XMODIFIERS = "@im=fcitx"
 di.os.env.WINEFSYNC = "1"
 di.os.env.ENABLE_DEVICE_CHOOSER_LAYER="1"
-di.os.env.VULKAN_DEVICE_MATCH="ACO"
+di.os.env.VULKAN_DEVICE_MATCH="AMD"
+di.os.env.GIT_EXTERNAL_DIFF="difft"
 
-di.os.env.RADV_PERFTEST = "cswave32,gewave32"
+di.os.env.RADV_PERFTEST = "cswave32,gewave32,nggc"
+di.os.env.AMD_VULKAN_ICD = "RADV"
 
 -- pretend to be mate so xdg-open would delegate to "gio open"
 di.os.env.XDG_CURRENT_DESKTOP = "MATE"
@@ -95,8 +97,8 @@ function apply_xi_settings(dev)
                         model_id = dev.id.product
                     end
                 end
-                if model_id == 0x00fe then
-                    -- this is my Deft
+                if model_id == 0x00fe or model_id == 0x00ff then
+                    -- this is my Deft (wired or wireless)
                     p["libinput Button Scrolling Button"] = 9
                 else
                     -- unknown, assuming it's my Ex-G
@@ -141,15 +143,15 @@ local function replace_awesome()
 end
 
 
-xc.xrdb = [[Xft.dpi: 144
-rofi.terminal: alacritty
+xc.xrdb = [[Xft.dpi:	288
+rofi.terminal:	alacritty
 ]]
 if not restarted then
     local function auto_start()
         replace_awesome()
 
         di.spawn:run({"picom", "--experimental-backends"}, true)
-        di.spawn:run({"fcitx"}, true)
+        di.spawn:run({"fcitx5"}, true)
         --di.spawn.run({"transmission-daemon"}, true)
         di.spawn:run({"synergys", "--name", "pc"}, true)
         di.spawn:run({"mpd"}, true)
