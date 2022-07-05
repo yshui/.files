@@ -33,12 +33,7 @@ window:
   # Setting this to false will result in window without borders and title bar.
   decorations: full
   dynamic_title: true
-
-# The FreeType rasterizer needs to know the device DPI for best results
-# (changes require restart)
-dpi:
-  x: 96.0
-  y: 96.0
+  opacity: 0.62
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: true
@@ -82,7 +77,7 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 14.0
+  size: 8
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -177,9 +172,6 @@ colors:
 bell:
   animation: EaseOutExpo
   duration: 0
-
-# Background opacity
-background_opacity: 0.62
 
 # Mouse bindings
 #
@@ -369,7 +361,7 @@ key_bindings:
   - { key: Right,    mods: Alt,     chars: "\x1b[1;3C"                   }
   - { key: Right,    mods: Control, chars: "\x1b[1;5C"                   }
   - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
-  - { key: Subtract, mods: Control, action: DecreaseFontSize             }
+  - { key: Minus,    mods: Control, action: DecreaseFontSize             }
   - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
   - { key: Up,                      chars: "\x1bOA",   mode: AppCursor   }
   - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor  }
