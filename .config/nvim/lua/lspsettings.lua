@@ -9,9 +9,11 @@ lspconfig.rust_analyzer.setup{
     capabilities = capabilities
 }
 
+local clangd_capabilities = capabilities
+clangd_capabilities.offsetEncoding = 'utf-8'
 lspconfig.clangd.setup{
     on_attach = lsp_status.on_attach,
-    capabilities = capabilities
+    capabilities = clangd_capabilities
 }
 
 lspconfig.serve_d.setup{

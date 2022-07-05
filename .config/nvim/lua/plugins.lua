@@ -99,6 +99,15 @@ use { 'hrsh7th/nvim-cmp', requires = { 'nvim-lspconfig', 'onsails/lspkind-nvim' 
                     cmp.mapping.close()
                 end
             end, {'i', 's'}),
+            ["<C-j>"] = cmp.mapping(function(fallback)
+                cmp.mapping.abort()
+                local copilot_keys = vim.fn["copilot#Accept"]()
+                if copilot_keys ~= "" then
+                    vim.api.nvim_feedkeys(copilot_keys, "i", true)
+                else
+                    fallback()
+                end
+            end),
             ['<CR>'] = cmp.mapping.confirm({
                 behavior = cmp.ConfirmBehavior.Replace,
                 select = true,
@@ -190,5 +199,15 @@ use {
     ]]
   end,
   requires = { { 'hoob3rt/lualine.nvim', opt=true }, {'kyazdani42/nvim-web-devicons', opt = true} }
+}
+use 'github/copilot.vim'
+use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+        require'indent_blankline'.setup {
+            show_current_context = true,
+            show_current_context_start = true,
+        }
+    end
 }
 end)

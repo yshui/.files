@@ -79,7 +79,7 @@ opt('updatetime', 500)
 opt('showmode', false)
 opt('tags', 'tags;/')
 opt('clipboard', 'unnamedplus')
-opt('guifont', 'Iosevka:h12')
+opt('guifont', 'Iosevka Term:h8')
 opt('titlestring', '%f - NVIM')
 opt('grepprg', 'grep -nH $*')
 opt('completeopt', 'menu,menuone,noselect')
@@ -106,6 +106,11 @@ end
 g['mapleader'] = ' '
 g['maplocalleader'] = ','
 
+-- }}}
+
+-- {{{ Neovide
+g['neovide_cursor_animation_length'] = 0.02
+g['neovide_cursor_trail_length'] = 0.2
 -- }}}
 
 -- {{{ Plugin configurationsArpeggio inoremap wq <cmd>wq<CR>
@@ -151,6 +156,9 @@ g['tex_flavor'] = 'latex'
 g['AutoPairsMapCR'] = 0
 -- }}}
 
+g['copilot_no_tab_map'] = true
+g['copilot_assume_mapped'] = true
+g['copilot_tab_fallback'] = ""
 -- }}}
 
 -- {{{ Key maps
