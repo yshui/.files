@@ -110,5 +110,6 @@ hi cssClassName ctermfg=148 ctermbg=NONE cterm=NONE guifg=#a6e22e guibg=NONE gui
 hi cssValueLength ctermfg=141 ctermbg=NONE cterm=NONE guifg=#ae81ff guibg=NONE gui=NONE
 hi cssCommonAttr ctermfg=81 ctermbg=NONE cterm=NONE guifg=#66d9ef guibg=NONE gui=NONE
 hi cssBraces ctermfg=NONE ctermbg=NONE cterm=NONE guifg=NONE guibg=NONE gui=NONE
-hi chromaticaStructDecl ctermfg=81 ctermbg=NONE cterm=NONE
-hi chromaticaTypeRef ctermfg=81 ctermbg=NONE cterm=NONE
+highlight IlluminatedWordText guibg=#3b4261
+highlight IlluminatedWordRead guibg=#3b4261
+highlight IlluminatedWordWrite guibg=#3b4261

@@ -1,213 +1,128 @@
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
-return require('packer').startup(function()
-
-use 'neovim/nvim-lspconfig'
-use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-    require 'nvim-treesitter.configs'.setup {
-        ensure_installed = {
-            'bash', 'beancount', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp',
-            'comment', 'css', 'cuda', 'd', 'dot', 'dockerfile', 'fish', 'glsl',
-            'help', 'html', 'http', 'javascript', 'json', 'json5', 'jsonc',
-            'kotlin', 'latex', 'ledger', 'llvm', 'lua', 'make', 'markdown',
-            'ninja', 'nix', 'ocaml', 'org', 'python', 'rust', 'regex', 'rst',
-            'toml', 'tsx', 'typescript', 'vim', 'yaml', 'zig'
-        },
-        highlight = {enable = true}
-    }
-end}
-use { 'wbthomason/packer.nvim', branch = "master" }
-use 'bhurlow/vim-parinfer'
-use 'roxma/nvim-yarp'
-use 'nvim-lua/lsp-status.nvim'
--- use { 'neoclide/coc.nvim', run = 'yarn install' }
-use 'LnL7/vim-nix'
-use 'othree/html5.vim'
-use 'tpope/vim-surround'
-use 'chrisbra/SudoEdit.vim'
-use 'pangloss/vim-javascript'
-use 'scrooloose/nerdcommenter'
-use 'scrooloose/nerdtree'
-use 'mattn/emmet-vim'
-use 'plasticboy/vim-markdown'
-use 'rust-lang/rust.vim'
-use 'Matt-Deacalion/vim-systemd-syntax'
-use 'leafgarland/typescript-vim'
-use 'junegunn/fzf'
-use 'reasonml-editor/vim-reason-plus'
-use 'vim-scripts/Lucius'
--- use 'vim-airline/vim-airline'
--- use { 'vim-airline/vim-airline-themes', requires = { 'vim-airline' }}
-use { 'ternjs/tern_for_vim', run = 'npm install' }
-use 'kana/vim-arpeggio'
-use 'editorconfig/editorconfig-vim'
-use 'udalov/kotlin-vim'
-use 'junegunn/fzf.vim'
-use 'powerman/vim-plugin-AnsiEsc'
--- use 'jackguo380/vim-lsp-cxx-highlight'
-use { 'tami5/lspsaga.nvim', requires = { 'nvim-lspconfig' }, config = function()
-   require'lspsaga'.init_lsp_saga()
-end}
-use 'onsails/lspkind-nvim'
-
---{{{ cmp sources
-use 'hrsh7th/cmp-nvim-lsp'
-use 'hrsh7th/cmp-path'
-use 'hrsh7th/cmp-buffer'
-use 'hrsh7th/cmp-calc'
-use 'hrsh7th/cmp-cmdline'
-use 'L3MON4D3/LuaSnip'
-use 'saadparwaiz1/cmp_luasnip'
-use {
-    'Saecki/crates.nvim',
-    event = { "BufRead Cargo.toml" },
-    requires = { { 'nvim-lua/plenary.nvim' } },
-    config = function()
-        require('crates').setup()
-        require('cmp').setup.buffer { sources = { { name = 'crates' } } }
-    end,
-}
-use 'ray-x/cmp-treesitter'
---}}}
-
-use { 'hrsh7th/nvim-cmp', requires = { 'nvim-lspconfig', 'onsails/lspkind-nvim' }, config = function()
-    local cmp = require'cmp'
-    cmp.setup {
-        snippet = {
-            expand = function(args)
-                require'luasnip'.lsp_expand(args.body)
-            end
-        },
-        sources = {
-            { name = 'nvim_lsp' },
-            { name = 'path' },
-            { name = 'buffer' },
-            { name = 'calc' },
-            { name = 'treesitter' },
-            { name = 'cmdline' },
-            { name = 'luasnip' }
-        },
-        formatting = {
-            format = require'lspkind'.cmp_format({with_text = false, maxwidth = 50})
-        },
-        mapping = {
-            ['<C-e>'] = cmp.mapping(function(fallback)
-                local luasnip = require'luasnip'
-                if luasnip.jumpable(1) then
-                    luasnip.jump(1)
-                else
-                    cmp.mapping.close()
-                end
-            end, {'i', 's'}),
-            ["<C-j>"] = cmp.mapping(function(fallback)
-                cmp.mapping.abort()
-                local copilot_keys = vim.fn["copilot#Accept"]()
-                if copilot_keys ~= "" then
-                    vim.api.nvim_feedkeys(copilot_keys, "i", true)
-                else
-                    fallback()
-                end
-            end),
-            ['<CR>'] = cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Replace,
-                select = true,
-            }),
-            ['<C-f>'] = cmp.mapping({
-                i = cmp.mapping.abort(),
-                c = cmp.mapping.close(),
-            }),
-            ['<Tab>'] = cmp.mapping({
-                c = function(fallback)
-                    if #cmp.core:get_sources() > 0 and not cmp.get_config().experimental.native_menu then
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        else
-                            cmp.complete()
-                        end
-                    else
-                        fallback()
-                    end
-                end,
-                i = function(fallback)
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    elseif require'utils'.is_whitespace() then
-                        fallback()
-                    else
-                        cmp.complete()
-                    end
-                end,
-            }),
-            ['<S-Tab>'] = cmp.mapping({
-                c = function(fallback)
-                    if #cmp.core:get_sources() > 0 and not cmp.get_config().experimental.native_menu then
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        else
-                            cmp.complete()
-                        end
-                    else
-                        fallback()
-                    end
-                end,
-                i = function(fallback)
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    else
-                        cmp.complete()
-                    end
-                end,
-            }),
-        }
-    }
-    cmp.setup.cmdline('/', {
-        sources = {
-            { name = 'buffer' }
-        }
-    })
-    cmp.setup.cmdline(':', {
-        sources = cmp.config.sources({
-            { name = 'path' }
-        }, {
-            { name = 'cmdline' }
-        })
-    })
-end}
-use 'ziglang/zig.vim'
-use 'wsdjeg/dein-ui.vim'
-use { 'liuchengxu/vim-which-key', opt = true, cmd = { 'WhichKey' }}
-use 'liuchengxu/vista.vim'use {
-  'nvim-lualine/lualine.nvim',
-  requires = {'kyazdani42/nvim-web-devicons', opt = true}
-}
-use {
-  'lewis6991/gitsigns.nvim',
-  requires = {
-    'nvim-lua/plenary.nvim'
-  },
-  config = function()
-    require('gitsigns').setup()
-  end
-}
-use {
-  'kdheepak/tabline.nvim',
-  config = function()
-    require'tabline'.setup { }
-    vim.cmd[[
-      set guioptions-=e " Use showtabline in gui vim
-      set sessionoptions+=tabpages,globals " store tabpages and globals in session
-    ]]
-  end,
-  requires = { { 'hoob3rt/lualine.nvim', opt=true }, {'kyazdani42/nvim-web-devicons', opt = true} }
-}
-use 'github/copilot.vim'
-use {
-    'lukas-reineke/indent-blankline.nvim',
-    config = function()
-        require'indent_blankline'.setup {
-            show_current_context = true,
-            show_current_context_start = true,
-        }
+-- :fennel:1669600990
+do
+  if (0 == vim.fn.isdirectory("/home/shui/.local/share/nvim/site/pack/packer/start/packer.nvim")) then
+    print("packer.nvim: installing in data dir...")
+    local function _1_(...)
+      _G["packer_bootstrap"] = true
+      return nil
     end
-}
-end)
+    do local _ = (vim.fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", "/home/shui/.local/share/nvim/site/pack/packer/start/packer.nvim"}) and _1_(...)) end
+    vim.cmd("redraw")
+    vim.cmd("packadd packer.nvim")
+    print("packer.nvim: installed")
+  else
+  end
+  do end (require("packer")).init({})
+end
+local function _3_(use)
+  _G.assert((nil ~= use), "Missing argument use on plugins.fnl:3")
+  use("wbthomason/packer.nvim")
+  do
+    use({"onsails/lspkind-nvim"})
+    local function _4_()
+      local ts = require("nvim-treesitter.configs")
+      return ts.setup({ensure_installed = "all", highlight = {enable = true}})
+    end
+    use({config = _4_, "nvim-treesitter/nvim-treesitter"})
+    use({"nvim-treesitter/nvim-treesitter-context"})
+    use({"editorconfig/editorconfig-vim"})
+    use({"neovim/nvim-lspconfig"})
+    use({"scrooloose/nerdcommenter"})
+    use({"kana/vim-arpeggio"})
+    local function _5_()
+      return vim.api.nvim_set_keymap("n", "<c-P>", "<cmd>lua require('fzf-lua').files({ cwd = require'find-root'.find_root(0)})<CR>", {noremap = true, silent = true})
+    end
+    use({config = _5_, "ibhagwan/fzf-lua"})
+    use({"powerman/vim-plugin-AnsiEsc"})
+    use({"hrsh7th/cmp-nvim-lsp"})
+    use({"hrsh7th/cmp-path"})
+    use({"hrsh7th/cmp-buffer"})
+    use({"hrsh7th/cmp-calc"})
+    use({"hrsh7th/cmp-cmdline"})
+    use({"ray-x/cmp-treesitter"})
+    use({"L3MON4D3/LuaSnip"})
+    use({"saadparwaiz1/cmp_luasnip"})
+    local function _6_()
+      local crates = require("crates")
+      local cmp = require("cmp")
+      crates.setup()
+      local config = cmp.get_config()
+      table.insert(config.sources, {name = "crates"})
+      return cmp.setup.buffer(config)
+    end
+    use({config = _6_, event = {"BufRead Cargo.toml"}, requires = {"nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp"}, "Saecki/crates.nvim"})
+    local function _7_()
+      return require("plugins.cmp")
+    end
+    use({config = _7_, "hrsh7th/nvim-cmp"})
+    local function _8_()
+      return (require("which-key")).setup({window = {position = "top", winblend = 1}})
+    end
+    use({config = _8_, "folke/which-key.nvim"})
+    local function _9_()
+      return (require("gitsigns")).setup()
+    end
+    use({config = _9_, requires = {"nvim-lua/plenary.nvim"}, "lewis6991/gitsigns.nvim"})
+    use({"github/copilot.vim"})
+    local function _10_()
+      return (require("indent_blankline")).setup({show_current_context = true, show_current_context_start = true})
+    end
+    use({config = _10_, "lukas-reineke/indent-blankline.nvim"})
+    use({"kyazdani42/nvim-web-devicons"})
+    local function _11_()
+      return (require("bufferline")).setup()
+    end
+    use({config = _11_, ensure_dependencies = true, requires = {"kyazdani42/nvim-web-devicons"}, "romgrk/barbar.nvim"})
+    use({"h-hg/fcitx.nvim"})
+    use({"Vonr/align.nvim"})
+    local function _12_()
+      return (require("leap")).add_default_mappings()
+    end
+    use({config = _12_, "ggandor/leap.nvim"})
+    local function _13_()
+      return require("plugins.noice")
+    end
+    use({config = _13_, ensure_dependencies = true, requires = {"MunifTanjim/nui.nvim", "rcarriga/nvim-notify"}, "folke/noice.nvim"})
+    use({"stevearc/dressing.nvim"})
+    use({"rcarriga/nvim-notify"})
+    local function _14_()
+      return (require("trouble")).setup()
+    end
+    use({config = _14_, ensure_dependencies = true, requires = {"kyazdani42/nvim-web-devicons"}, "folke/trouble.nvim"})
+    use({"simrat39/rust-tools.nvim"})
+    use({branch = "v2.x", ensure_dependencies = true, mod = "neo-tree", requires = {"kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim"}, "nvim-neo-tree/neo-tree.nvim"})
+    local function _15_()
+      return (require("illuminate")).configure()
+    end
+    use({config = _15_, "RRethy/vim-illuminate"})
+    use({"lambdalisue/suda.vim"})
+    local function _16_()
+      local surround = require("nvim-surround")
+      return surround.setup({keymaps = {insert = "<C-g>f", normal = "yf", visual = "F", delete = "df", change = "cf"}})
+    end
+    use({config = _16_, "kylechui/nvim-surround"})
+    local function _17_()
+      return (require("mason")).setup()
+    end
+    use({config = _17_, "williamboman/mason.nvim"})
+    local function _18_()
+      return (require("mason-lspconfig")).setup()
+    end
+    use({config = _18_, ensure_installed = {"sumneko_lua"}, "williamboman/mason-lspconfig.nvim"})
+    use({run = "cargo build --release", "eraserhd/parinfer-rust"})
+    use({requires = {"kyazdani42/nvim-web-devicons"}, "nvim-lualine/lualine.nvim"})
+    use({"RRethy/vim-tranquille"})
+    use({"norcalli/nvim.lua"})
+    local function _19_()
+      return (require("tangerine")).setup({})
+    end
+    use({config = _19_, "udayvir-singh/tangerine.nvim"})
+    use({"udayvir-singh/hibiscus.nvim"})
+  end
+  if (true == _G.packer_bootstrap) then
+    return (require("packer")).sync()
+  else
+    return nil
+  end
+end
+return (require("packer")).startup(_3_)

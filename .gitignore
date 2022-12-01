@@ -1,29 +1,29 @@
-**
+/*
 !.gitignore
 !.gitmodules
 
-!.config
-!.config/nvim
+!/.config
+!/.config/nvim
 /.config/nvim/dein
 !/.config/mpv
 /.config/mpv/watch_later
-!.config/awesome
-!.zprezto-contrib
-!.zpreztorc
+!/.config/awesome
+!/.zprezto-contrib
+!/.zpreztorc
 
-!.emacs.d
+!/.emacs.d
 
-!.mpd
-!.mpd/mpd.conf
+!/.mpd
+!/.mpd/mpd.conf
 
-!.terminfo
-!.terminfo/**
+!/.terminfo
+!/.terminfo/**
 
-!.utils
-!.utils/**
+!/.utils
+!/.utils/**
 
-!README.md
-!.zshrc
-!.xinitrc
-!.zshkeybinding
-!.Xresources
+!/README.md
+!/.zshrc
+!/.xinitrc
+!/.zshkeybinding
+!/.Xresources
