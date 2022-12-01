@@ -6,10 +6,9 @@
    :set+ o+
    :rem! o-}
   :hibiscus.vim)
-(local nvim (require :nvim))
+(require :plugins)
 (require :settings)
 (require :lsp)
-(require :plugins)
 
 (color! monokai)
 
@@ -41,6 +40,8 @@
 
 (if (= (os.getenv :COLORTERM) "truecolor")
   (o! termguicolors))
+
+(local nvim (require :nvim))
 
 (fn au/ [event pattern f]
  (nvim.create_autocmd event {:pattern pattern :callback f}))
