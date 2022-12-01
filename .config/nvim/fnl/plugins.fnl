@@ -95,4 +95,5 @@
   (use! :RRethy/vim-tranquille)
   (use! :norcalli/nvim.lua)
   (use! :udayvir-singh/tangerine.nvim :config #((. (require :tangerine) :setup) {}))
-  (use! :udayvir-singh/hibiscus.nvim))
+  (use! :udayvir-singh/hibiscus.nvim)
+  (use! :vladdoster/remember.nvim :config #(require :remember)))
