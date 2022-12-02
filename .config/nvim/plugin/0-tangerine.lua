@@ -20,4 +20,5 @@ bootstrap "https://github.com/udayvir-singh/hibiscus.nvim"
 require'tangerine'.setup {
   compiler = { hooks = { "oninit" } },
   keymaps = { float = { kill = "q" } },
+  target = vim.fn.stdpath[[cache]] .. "/tangerine",
 }

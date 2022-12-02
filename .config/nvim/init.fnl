@@ -2,6 +2,7 @@
   {:augroup! aug!
    : color!
    : g!
+   : exec
    :set! o!
    :set+ o+
    :rem! o-}
@@ -31,6 +32,7 @@
 (o! timeoutlen 300)
 (o! updatetime 500)
 (o! noshowmode)
+(o+ viewoptions "options")
 (o! clipboard :unnamedplus)
 (o! guifont "Iosevka Term:h8")
 (o! titlestring "%f - NVIM")
@@ -55,6 +57,13 @@
 (au :FileType :markdown "set spell spelllang=en_us")
 (au [:BufNewFile :BufRead] ["*.frag" "*.vert"] "set filetype=glsl")
 (au [:BufNewFile :BufRead] [:meson.build :meson_options.txt] "set filetype=toml")
+(aug! :MkView
+  [[BufWinLeave
+    BufLeave
+    BufWritePost
+    BufHidden
+    QuitPre :nested] ?* "silent! mkview!"]
+  [[BufWinEnter] ?* "silent! loadview"])
 
 (fn tmux-apply-title []
  (->
